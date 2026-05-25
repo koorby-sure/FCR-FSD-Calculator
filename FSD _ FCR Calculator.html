@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)file:///C:/Users/aleksandr.volkov/Documents/01%20Docs/Main/FSD%20_%20FCR%20Calculator.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FSD / FCR Calculator</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --blue: #2563eb;
+      --blue2: #1d4ed8;
+      --soft: #eff6ff;
+      --green: #ecfdf5;
+      --green-line: #a7f3d0;
+      --orange: #fff7ed;
+      --orange-line: #fdba74;
+      --red: #fee2e2;
+      --red-text: #991b1b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .top {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      padding: 22px 14px 32px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.05;
+    }
+
+    .top p {
+      margin: 0;
+      color: rgba(255,255,255,.86);
+      font-size: 15px;
+    }
+
+    main {
+      margin-top: -20px;
+      padding: 0 10px 32px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, .07);
+      overflow: hidden;
+    }
+
+    h2 {
+      margin: 0 0 5px;
+      font-size: 20px;
+    }
+
+    .hint {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    input, select {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      background: #fff;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select {
+      background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
+      background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 34px;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .14);
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.2;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(37, 99, 235, .18);
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    button:active {
+      transform: scale(.99);
+    }
+
+    .secondary {
+      background: var(--soft);
+      color: var(--blue2);
+      border: 1px solid #bfdbfe;
+    }
+
+    .danger {
+      background: var(--red);
+      color: var(--red-text);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .mode button {
+      background: #f8fafc;
+      color: #334155;
+      border: 1px solid var(--line);
+    }
+
+    .mode button.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .result {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--green);
+      border: 1px solid var(--green-line);
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result .big {
+      font-size: 24px;
+      line-height: 1.15;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .result .small {
+      font-size: 14px;
+      color: #065f46;
+    }
+
+    .warning {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--orange);
+      border: 1px solid var(--orange-line);
+      color: #9a3412;
+      font-size: 14px;
+    }
+
+    .warning.show {
+      display: block;
+    }
+
+    .warning-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .warning-buttons button {
+      background: #fed7aa;
+      color: #9a3412;
+    }
+
+    .mini-controls {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      gap: 8px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .mini-title {
+      text-align: center;
+      font-weight: 900;
+      font-size: 15px;
+    }
+
+    .mini-calendar {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .cell {
+      min-height: 44px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      padding: 0;
+      background: #fff;
+      color: #94a3b8;
+    }
+
+    .cell:nth-child(7n) {
+      border-right: 0;
+    }
+
+    .head {
+      min-height: 32px;
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 900;
+      font-size: 10px;
+    }
+
+    .empty {
+      background: #f8fafc;
+    }
+
+    button.cell {
+      min-height: 44px;
+      border-radius: 0;
+      background: var(--soft);
+      color: var(--blue2);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    button.cell.selected {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .countries {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 360px;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .month-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .month {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .month-title {
+      padding: 10px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+      font-weight: 900;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 10px;
+    }
+
+    .pill {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--blue2);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .notice {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (min-width: 720px) {
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .actions {
+        grid-template-columns: auto auto;
+        justify-content: start;
+      }
+
+      .actions button {
+        width: auto;
+      }
+
+      .month-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>FSD / FCR Calculator</h1>
+      <p>Расчёт дат поставки и отгрузки. FSD всегда должен быть четвергом.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="card">
+        <p class="notice"><b>Важно для телефона:</b> откройте файл в Safari или Chrome. Встроенный предпросмотр WhatsApp, Telegram, Gmail, Google Drive или SharePoint иногда блокирует JavaScript.</p>
+      </div>
+
+      <section class="grid2">
+        <div class="card">
+          <h2>1. FSD → FCR</h2>
+          <p class="hint">Выберите FSD и страну. Система рассчитает FCR.</p>
+
+          <label>Способ ввода FSD</label>
+          <div class="mode">
+            <button type="button" id="modeManual" class="active">Ручной ввод</button>
+            <button type="button" id="modeCalendar">Календарь</button>
+          </div>
+
+          <div id="manualPanel" class="panel active">
+            <div class="row">
+              <div>
+                <label for="fsdInput">FSD</label>
+                <input id="fsdInput" inputmode="numeric" placeholder="15.10.2026 или 15.10">
+              </div>
+              <div>
+                <label for="fsdYear">Год, если не указан</label>
+                <select id="fsdYear"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div id="calendarPanel" class="panel">
+            <label for="fsdCalendarValue">FSD из календаря</label>
+            <input id="fsdCalendarValue" readonly="" placeholder="Выберите четверг ниже">
+            <div class="mini-controls">
+              <button type="button" class="secondary" id="prevMonth">←</button>
+              <div id="miniTitle" class="mini-title">Октябрь 2026</div>
+              <button type="button" class="secondary" id="nextMonth">→</button>
+            </div>
+            <div id="miniCalendar" class="mini-calendar"><div class="mini-grid"><div class="cell head">ПН</div><div class="cell head">ВТ</div><div class="cell head">СР</div><div class="cell head">ЧТ</div><div class="cell head">ПТ</div><div class="cell head">СБ</div><div class="cell head">ВС</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><button type="button" class="cell choose-calendar-fsd" data-date="01.10.2026">1</button><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><button type="button" class="cell choose-calendar-fsd" data-date="08.10.2026">8</button><div class="cell">9</div><div class="cell">10</div><div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell">14</div><button type="button" class="cell choose-calendar-fsd" data-date="15.10.2026">15</button><div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div><div class="cell">21</div><button type="button" class="cell choose-calendar-fsd" data-date="22.10.2026">22</button><div class="cell">23</div><div class="cell">24</div><div class="cell">25</div><div class="cell">26</div><div class="cell">27</div><div class="cell">28</div><button type="button" class="cell choose-calendar-fsd" data-date="29.10.2026">29</button><div class="cell">30</div><div class="cell">31</div></div></div>
+          </div>
+
+          <label for="countryFromFsd">Страна</label>
+          <select id="countryFromFsd"><option value="Вьетнам">Вьетнам — 50 дн.</option><option value="Индия">Индия — 59 дн.</option><option value="Индия Air">Индия Air — 20 дн.</option><option value="Китай">Китай — 50 дн.</option><option value="Bangladesh">Bangladesh — 65 дн.</option></select>
+
+          <div class="actions">
+            <button type="button" id="calcFcr">Рассчитать FCR</button>
+            <button type="button" id="copyFcr" class="secondary">Скопировать</button>
+          </div>
+
+          <div id="fsdWarning" class="warning"></div>
+          <div id="fcrResult" class="result"></div>
+        </div>
+
+        <div class="card">
+          <h2>2. FCR → FSD</h2>
+          <p class="hint">Введите FCR. FSD автоматически переносится на ближайший четверг вперёд.</p>
+
+          <div class="row">
+            <div>
+              <label for="fcrInput">FCR</label>
+              <input id="fcrInput" inputmode="numeric" placeholder="30.08.2026 или 30.08">
+            </div>
+            <div>
+              <label for="fcrYear">Год, если не указан</label>
+              <select id="fcrYear"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
+            </div>
+          </div>
+
+          <label for="countryFromFcr">Страна</label>
+          <select id="countryFromFcr"><option value="Вьетнам">Вьетнам — 50 дн.</option><option value="Индия">Индия — 59 дн.</option><option value="Индия Air">Индия Air — 20 дн.</option><option value="Китай">Китай — 50 дн.</option><option value="Bangladesh">Bangladesh — 65 дн.</option></select>
+
+          <div class="actions">
+            <button type="button" id="calcFsd">Рассчитать FSD</button>
+            <button type="button" id="copyFsd" class="secondary">Скопировать</button>
+          </div>
+
+          <div id="fsdResult" class="result show"><div class="big">FSD: 01.10.2026</div><div class="small">Bangladesh: 65 дней доставки. FCR: 27.07.2026. Предварительная дата: 30.09.2026 (СР), перенос вперёд: +1 дн.</div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Настройки стран</h2>
+        <p class="hint">Можно добавить или изменить срок доставки.</p>
+
+        <div class="row">
+          <div>
+            <label for="newCountry">Страна</label>
+            <input id="newCountry" placeholder="Например: Bangladesh">
+          </div>
+          <div>
+            <label for="newDays">Дней доставки</label>
+            <input id="newDays" type="number" min="0" inputmode="numeric" placeholder="45">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="saveCountry">Добавить / обновить</button>
+          <button type="button" id="resetCountries" class="secondary">Вернуть стандартные</button>
+        </div>
+
+        <div class="table-scroll" style="margin-top:12px;">
+          <table class="countries">
+            <thead>
+              <tr>
+                <th>Страна</th>
+                <th>Дней</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="countryTable"><tr><td><b>Вьетнам</b></td><td>50</td><td><button type="button" class="danger delete-country" data-index="0">Удалить</button></td></tr><tr><td><b>Индия</b></td><td>59</td><td><button type="button" class="danger delete-country" data-index="1">Удалить</button></td></tr><tr><td><b>Индия Air</b></td><td>20</td><td><button type="button" class="danger delete-country" data-index="2">Удалить</button></td></tr><tr><td><b>Китай</b></td><td>50</td><td><button type="button" class="danger delete-country" data-index="3">Удалить</button></td></tr><tr><td><b>Bangladesh</b></td><td>65</td><td><button type="button" class="danger delete-country" data-index="4">Удалить</button></td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Календарь четвергов</h2>
+        <p class="hint">Все возможные даты FSD на 2026 и 2027.</p>
+
+        <label for="calendarYear">Год</label>
+        <select id="calendarYear">
+          <option value="2026">2026</option>
+          <option value="2027">2027</option>
+        </select>
+
+        <div class="actions">
+          <button type="button" id="copyThursdays" class="secondary">Скопировать все четверги года</button>
+        </div>
+
+        <div id="thursdayCalendar" class="month-list" style="margin-top:12px;"><div class="month"><div class="month-title">Январь</div><div class="pills"><span class="pill">01.01.2026</span><span class="pill">08.01.2026</span><span class="pill">15.01.2026</span><span class="pill">22.01.2026</span><span class="pill">29.01.2026</span></div></div><div class="month"><div class="month-title">Февраль</div><div class="pills"><span class="pill">05.02.2026</span><span class="pill">12.02.2026</span><span class="pill">19.02.2026</span><span class="pill">26.02.2026</span></div></div><div class="month"><div class="month-title">Март</div><div class="pills"><span class="pill">05.03.2026</span><span class="pill">12.03.2026</span><span class="pill">19.03.2026</span><span class="pill">26.03.2026</span></div></div><div class="month"><div class="month-title">Апрель</div><div class="pills"><span class="pill">02.04.2026</span><span class="pill">09.04.2026</span><span class="pill">16.04.2026</span><span class="pill">23.04.2026</span><span class="pill">30.04.2026</span></div></div><div class="month"><div class="month-title">Май</div><div class="pills"><span class="pill">07.05.2026</span><span class="pill">14.05.2026</span><span class="pill">21.05.2026</span><span class="pill">28.05.2026</span></div></div><div class="month"><div class="month-title">Июнь</div><div class="pills"><span class="pill">04.06.2026</span><span class="pill">11.06.2026</span><span class="pill">18.06.2026</span><span class="pill">25.06.2026</span></div></div><div class="month"><div class="month-title">Июль</div><div class="pills"><span class="pill">02.07.2026</span><span class="pill">09.07.2026</span><span class="pill">16.07.2026</span><span class="pill">23.07.2026</span><span class="pill">30.07.2026</span></div></div><div class="month"><div class="month-title">Август</div><div class="pills"><span class="pill">06.08.2026</span><span class="pill">13.08.2026</span><span class="pill">20.08.2026</span><span class="pill">27.08.2026</span></div></div><div class="month"><div class="month-title">Сентябрь</div><div class="pills"><span class="pill">03.09.2026</span><span class="pill">10.09.2026</span><span class="pill">17.09.2026</span><span class="pill">24.09.2026</span></div></div><div class="month"><div class="month-title">Октябрь</div><div class="pills"><span class="pill">01.10.2026</span><span class="pill">08.10.2026</span><span class="pill">15.10.2026</span><span class="pill">22.10.2026</span><span class="pill">29.10.2026</span></div></div><div class="month"><div class="month-title">Ноябрь</div><div class="pills"><span class="pill">05.11.2026</span><span class="pill">12.11.2026</span><span class="pill">19.11.2026</span><span class="pill">26.11.2026</span></div></div><div class="month"><div class="month-title">Декабрь</div><div class="pills"><span class="pill">03.12.2026</span><span class="pill">10.12.2026</span><span class="pill">17.12.2026</span><span class="pill">24.12.2026</span><span class="pill">31.12.2026</span></div></div></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var DEFAULT_COUNTRIES = [
+        { name: "Вьетнам", days: 50 },
+        { name: "Китай", days: 50 },
+        { name: "Индия", days: 59 }
+      ];
+
+      var MONTHS = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+      var WEEKDAYS = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
+      var fsdMode = "manual";
+      var miniMonth = 9;
+      var miniYear = 2026;
+      var countries = loadCountries();
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function safeClick(id, fn) {
+        var el = byId(id);
+        if (!el) return;
+
+        el.addEventListener("click", function (event) {
+          event.preventDefault();
+          fn(event);
+        });
+
+        el.addEventListener("touchend", function (event) {
+          event.preventDefault();
+          fn(event);
+        }, { passive: false });
+      }
+
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function formatDate(date) {
+        return pad(date.getDate()) + "." + pad(date.getMonth() + 1) + "." + date.getFullYear();
+      }
+
+      function dayName(date) {
+        return WEEKDAYS[date.getDay()];
+      }
+
+      function parseDate(value, fallbackYear) {
+        var text = String(value || "").trim().replace(/\//g, ".").replace(/-/g, ".");
+        var parts = text.split(".").filter(Boolean);
+
+        if (parts.length < 2 || parts.length > 3) {
+          throw new Error("Введите дату в формате ДД.ММ или ДД.ММ.ГГГГ");
+        }
+
+        var day = Number(parts[0]);
+        var month = Number(parts[1]);
+        var year = parts[2] ? Number(parts[2]) : Number(fallbackYear);
+        var date = new Date(year, month - 1, day);
+
+        if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) {
+          throw new Error("Дата должна содержать только числа");
+        }
+
+        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          throw new Error("Такой даты не существует");
+        }
+
+        return date;
+      }
+
+      function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
+
+      function nextThursdayOnOrAfter(date) {
+        var result = new Date(date);
+        var shift = (4 - result.getDay() + 7) % 7;
+        result.setDate(result.getDate() + shift);
+        return result;
+      }
+
+      function previousThursdayOnOrBefore(date) {
+        var result = new Date(date);
+        var shift = (result.getDay() - 4 + 7) % 7;
+        result.setDate(result.getDate() - shift);
+        return result;
+      }
+
+      function loadCountries() {
+        try {
+          var saved = JSON.parse(localStorage.getItem("fsdFcrCountries_v2"));
+          if (Array.isArray(saved) && saved.length) return saved;
+        } catch (e) {}
+        return DEFAULT_COUNTRIES.slice();
+      }
+
+      function saveCountries() {
+        try {
+          localStorage.setItem("fsdFcrCountries_v2", JSON.stringify(countries));
+        } catch (e) {}
+      }
+
+      function renderYears() {
+        var years = [2026, 2027, 2028, 2029, 2030];
+        ["fsdYear", "fcrYear"].forEach(function (id) {
+          byId(id).innerHTML = years.map(function (y) {
+            return '<option value="' + y + '">' + y + '</option>';
+          }).join("");
+        });
+      }
+
+      function renderCountries() {
+        ["countryFromFsd", "countryFromFcr"].forEach(function (id) {
+          var select = byId(id);
+          var current = select.value;
+          select.innerHTML = countries.map(function (c) {
+            return '<option value="' + escapeHtml(c.name) + '">' + escapeHtml(c.name) + " — " + c.days + " дн.</option>";
+          }).join("");
+          if (countries.some(function (c) { return c.name === current; })) {
+            select.value = current;
+          }
+        });
+
+        byId("countryTable").innerHTML = countries.map(function (c, i) {
+          return "<tr>" +
+            "<td><b>" + escapeHtml(c.name) + "</b></td>" +
+            "<td>" + c.days + "</td>" +
+            '<td><button type="button" class="danger delete-country" data-index="' + i + '">Удалить</button></td>' +
+            "</tr>";
+        }).join("");
+      }
+
+      function escapeHtml(text) {
+        return String(text).replace(/[&<>"']/g, function (m) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[m];
+        });
+      }
+
+      function getCountry(selectId) {
+        var name = byId(selectId).value;
+        return countries.find(function (c) { return c.name === name; }) || countries[0];
+      }
+
+      function showResult(id, html) {
+        var el = byId(id);
+        el.innerHTML = html;
+        el.classList.add("show");
+      }
+
+      function showError(id, message) {
+        showResult(id, '<div class="big">Ошибка</div><div class="small">' + escapeHtml(message) + "</div>");
+      }
+
+      function setMode(mode) {
+        fsdMode = mode;
+        byId("modeManual").classList.toggle("active", mode === "manual");
+        byId("modeCalendar").classList.toggle("active", mode === "calendar");
+        byId("manualPanel").classList.toggle("active", mode === "manual");
+        byId("calendarPanel").classList.toggle("active", mode === "calendar");
+        if (mode === "calendar") renderMiniCalendar();
+      }
+
+      function setFsdDate(dateString) {
+        byId("fsdInput").value = dateString;
+        byId("fsdCalendarValue").value = dateString;
+        calculateFcr();
+        renderMiniCalendar();
+      }
+
+      function calculateFcr() {
+        var warning = byId("fsdWarning");
+        warning.classList.remove("show");
+        warning.innerHTML = "";
+
+        try {
+          var value = fsdMode === "calendar" ? byId("fsdCalendarValue").value : byId("fsdInput").value;
+          var fsd = parseDate(value, byId("fsdYear").value);
+          var country = getCountry("countryFromFsd");
+          var fcr = addDays(fsd, -country.days);
+
+          if (fsd.getDay() !== 4) {
+            var prev = previousThursdayOnOrBefore(fsd);
+            var next = nextThursdayOnOrAfter(fsd);
+
+            warning.innerHTML =
+              '<b>Внимание:</b> указанная FSD дата — ' + dayName(fsd) + ', а FSD должен быть четвергом.' +
+              '<div class="warning-buttons">' +
+                '<button type="button" class="choose-fsd" data-date="' + formatDate(prev) + '">Выбрать четверг назад: ' + formatDate(prev) + '</button>' +
+                '<button type="button" class="choose-fsd" data-date="' + formatDate(next) + '">Выбрать четверг вперёд: ' + formatDate(next) + '</button>' +
+              '</div>';
+            warning.classList.add("show");
+          }
+
+          showResult("fcrResult",
+            '<div class="big">FCR: ' + formatDate(fcr) + '</div>' +
+            '<div class="small">' + escapeHtml(country.name) + ': ' + country.days + ' дней доставки. FSD: ' + formatDate(fsd) + ' (' + dayName(fsd) + ').</div>'
+          );
+        } catch (e) {
+          showError("fcrResult", e.message);
+        }
+      }
+
+      function calculateFsd() {
+        try {
+          var fcr = parseDate(byId("fcrInput").value, byId("fcrYear").value);
+          var country = getCountry("countryFromFcr");
+          var raw = addDays(fcr, country.days);
+          var finalDate = nextThursdayOnOrAfter(raw);
+          var moved = Math.round((finalDate - raw) / 86400000);
+          var moveText = moved === 0
+            ? "Дата уже приходится на четверг, перенос не нужен."
+            : "Предварительная дата: " + formatDate(raw) + " (" + dayName(raw) + "), перенос вперёд: +" + moved + " дн.";
+
+          showResult("fsdResult",
+            '<div class="big">FSD: ' + formatDate(finalDate) + '</div>' +
+            '<div class="small">' + escapeHtml(country.name) + ': ' + country.days + ' дней доставки. FCR: ' + formatDate(fcr) + '. ' + moveText + '</div>'
+          );
+        } catch (e) {
+          showError("fsdResult", e.message);
+        }
+      }
+
+      function addOrUpdateCountry() {
+        var name = byId("newCountry").value.trim();
+        var days = Number(byId("newDays").value);
+
+        if (!name || !Number.isInteger(days) || days < 0) {
+          alert("Введите страну и корректное количество дней.");
+          return;
+        }
+
+        var existing = countries.find(function (c) {
+          return c.name.toLowerCase() === name.toLowerCase();
+        });
+
+        if (existing) {
+          existing.name = name;
+          existing.days = days;
+        } else {
+          countries.push({ name: name, days: days });
+        }
+
+        countries.sort(function (a, b) {
+          return a.name.localeCompare(b.name, "ru");
+        });
+
+        saveCountries();
+        renderCountries();
+        byId("newCountry").value = "";
+        byId("newDays").value = "";
+      }
+
+      function resetCountries() {
+        countries = DEFAULT_COUNTRIES.slice();
+        saveCountries();
+        renderCountries();
+      }
+
+      function getThursdaysByMonth(year) {
+        var result = [];
+        for (var month = 0; month < 12; month++) {
+          var dates = [];
+          var date = new Date(year, month, 1);
+          while (date.getMonth() === month) {
+            if (date.getDay() === 4) dates.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+          }
+          result.push(dates);
+        }
+        return result;
+      }
+
+      function renderBigCalendar() {
+        var year = Number(byId("calendarYear").value);
+        var months = getThursdaysByMonth(year);
+        byId("thursdayCalendar").innerHTML = months.map(function (dates, i) {
+          return '<div class="month">' +
+            '<div class="month-title">' + MONTHS[i] + '</div>' +
+            '<div class="pills">' + dates.map(function (d) {
+              return '<span class="pill">' + formatDate(d) + '</span>';
+            }).join("") + '</div>' +
+          '</div>';
+        }).join("");
+      }
+
+      function renderMiniCalendar() {
+        byId("miniTitle").textContent = MONTHS[miniMonth] + " " + miniYear;
+
+        var selected = byId("fsdCalendarValue").value;
+        var first = new Date(miniYear, miniMonth, 1);
+        var daysInMonth = new Date(miniYear, miniMonth + 1, 0).getDate();
+        var heads = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+        var html = '<div class="mini-grid">';
+
+        heads.forEach(function (h) {
+          html += '<div class="cell head">' + h + '</div>';
+        });
+
+        var offset = (first.getDay() + 6) % 7;
+        for (var x = 0; x < offset; x++) {
+          html += '<div class="cell empty"></div>';
+        }
+
+        for (var day = 1; day <= daysInMonth; day++) {
+          var date = new Date(miniYear, miniMonth, day);
+          var formatted = formatDate(date);
+          if (date.getDay() === 4) {
+            var selectedClass = formatted === selected ? " selected" : "";
+            html += '<button type="button" class="cell choose-calendar-fsd' + selectedClass + '" data-date="' + formatted + '">' + day + '</button>';
+          } else {
+            html += '<div class="cell">' + day + '</div>';
+          }
+        }
+
+        html += "</div>";
+        byId("miniCalendar").innerHTML = html;
+      }
+
+      function changeMiniMonth(delta) {
+        miniMonth += delta;
+        if (miniMonth < 0) {
+          miniMonth = 11;
+          miniYear -= 1;
+        }
+        if (miniMonth > 11) {
+          miniMonth = 0;
+          miniYear += 1;
+        }
+        renderMiniCalendar();
+      }
+
+      function copyTextFromResult(id) {
+        var text = byId(id).innerText.trim();
+        if (!text) {
+          alert("Сначала выполните расчёт.");
+          return;
+        }
+        copyText(text);
+      }
+
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            alert("Скопировано.");
+          }).catch(function () {
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text) {
+        var area = document.createElement("textarea");
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.left = "-9999px";
+        document.body.appendChild(area);
+        area.focus();
+        area.select();
+        try {
+          document.execCommand("copy");
+          alert("Скопировано.");
+        } catch (e) {
+          alert("Не удалось скопировать автоматически.");
+        }
+        document.body.removeChild(area);
+      }
+
+      function initEvents() {
+        safeClick("modeManual", function () { setMode("manual"); });
+        safeClick("modeCalendar", function () { setMode("calendar"); });
+        safeClick("prevMonth", function () { changeMiniMonth(-1); });
+        safeClick("nextMonth", function () { changeMiniMonth(1); });
+        safeClick("calcFcr", calculateFcr);
+        safeClick("calcFsd", calculateFsd);
+        safeClick("copyFcr", function () { copyTextFromResult("fcrResult"); });
+        safeClick("copyFsd", function () { copyTextFromResult("fsdResult"); });
+        safeClick("saveCountry", addOrUpdateCountry);
+        safeClick("resetCountries", resetCountries);
+        safeClick("copyThursdays", function () {
+          var year = Number(byId("calendarYear").value);
+          var list = getThursdaysByMonth(year).flat().map(formatDate).join("\n");
+          copyText(list);
+        });
+
+        byId("calendarYear").addEventListener("change", renderBigCalendar);
+
+        document.addEventListener("click", function (event) {
+          var target = event.target;
+          if (!target) return;
+
+          if (target.classList.contains("choose-fsd") || target.classList.contains("choose-calendar-fsd")) {
+            event.preventDefault();
+            setFsdDate(target.getAttribute("data-date"));
+          }
+
+          if (target.classList.contains("delete-country")) {
+            event.preventDefault();
+            var index = Number(target.getAttribute("data-index"));
+            if (countries.length <= 1) {
+              alert("Нельзя удалить последнюю страну.");
+              return;
+            }
+            countries.splice(index, 1);
+            saveCountries();
+            renderCountries();
+          }
+        });
+
+        document.addEventListener("touchend", function (event) {
+          var target = event.target;
+          if (!target) return;
+
+          if (target.classList.contains("choose-fsd") || target.classList.contains("choose-calendar-fsd")) {
+            event.preventDefault();
+            setFsdDate(target.getAttribute("data-date"));
+          }
+
+          if (target.classList.contains("delete-country")) {
+            event.preventDefault();
+            var index = Number(target.getAttribute("data-index"));
+            if (countries.length <= 1) {
+              alert("Нельзя удалить последнюю страну.");
+              return;
+            }
+            countries.splice(index, 1);
+            saveCountries();
+            renderCountries();
+          }
+        }, { passive: false });
+      }
+
+      function init() {
+        renderYears();
+        renderCountries();
+        renderMiniCalendar();
+        renderBigCalendar();
+        initEvents();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
+</body></html>
