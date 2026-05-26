@@ -1,38 +1,69 @@
-<!DOCTYPE html>
-<!-- saved from url=(0090)file:///C:/Users/aleksandr.volkov/Documents/01%20Docs/Main/FSD%20_%20FCR%20Calculator.html -->
-<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>FSD / FCR Calculator</title>
+
   <style>
     :root {
-      --bg: #f4f6fb;
-      --card: #ffffff;
-      --text: #172033;
+      --bg: #f5f7fb;
+      --bg-2: #eef3ff;
+      --card: rgba(255, 255, 255, 0.92);
+      --text: #0b1f3a;
       --muted: #64748b;
-      --line: #dbe3ef;
+      --line: rgba(148, 163, 184, 0.28);
+
       --blue: #2563eb;
-      --blue2: #1d4ed8;
-      --soft: #eff6ff;
+      --blue-2: #1d4ed8;
+      --blue-soft: #eff6ff;
+      --blue-soft-2: #dbeafe;
+
       --green: #ecfdf5;
-      --green-line: #a7f3d0;
+      --green-line: #86efac;
+      --green-text: #047857;
+
       --orange: #fff7ed;
       --orange-line: #fdba74;
+      --orange-text: #9a3412;
+
       --red: #fee2e2;
       --red-text: #991b1b;
+
+      --dark: #0f172a;
+
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+
+      --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 18px 45px rgba(15, 23, 42, 0.1);
+      --shadow-blue: 0 12px 28px rgba(37, 99, 235, 0.22);
+
+      --transition: 160ms ease;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
       margin: 0;
       padding: 0;
-      background: var(--bg);
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32rem),
+        radial-gradient(circle at top right, rgba(96, 165, 250, 0.16), transparent 30rem),
+        linear-gradient(180deg, var(--bg-2), var(--bg));
       color: var(--text);
-      font-family: Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       -webkit-text-size-adjust: 100%;
+      text-rendering: geometricPrecision;
     }
 
     body {
@@ -40,88 +71,283 @@
     }
 
     .top {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      position: relative;
+      overflow: hidden;
       color: #fff;
-      padding: 22px 14px 32px;
+      padding: 18px 14px 46px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.26), transparent 18rem),
+        radial-gradient(circle at 90% 0%, rgba(147, 197, 253, 0.38), transparent 22rem),
+        linear-gradient(135deg, #0f2f74 0%, #2563eb 58%, #3b82f6 100%);
+    }
+
+    .top::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent);
     }
 
     .wrap {
+      position: relative;
       width: 100%;
-      max-width: 980px;
+      max-width: 1180px;
       margin: 0 auto;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 950;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      background: rgba(255, 255, 255, 0.24);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .lang-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 132px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .lang-button {
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.8);
+      box-shadow: none;
+      font-size: 12px;
+    }
+
+    .lang-button:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .lang-button.active {
+      background: #fff;
+      color: var(--blue-2);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.16);
     }
 
     h1 {
       margin: 0 0 8px;
-      font-size: 30px;
-      line-height: 1.05;
-    }
-
-    .top p {
-      margin: 0;
-      color: rgba(255,255,255,.86);
-      font-size: 15px;
-    }
-
-    main {
-      margin-top: -20px;
-      padding: 0 10px 32px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 12px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, .07);
-      overflow: hidden;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      font-weight: 950;
     }
 
     h2 {
-      margin: 0 0 5px;
-      font-size: 20px;
+      margin: 0 0 6px;
+      font-size: clamp(20px, 2vw, 24px);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      font-weight: 950;
+    }
+
+    h3,
+    h4,
+    p {
+      margin: 0;
+    }
+
+    .top p {
+      color: rgba(255, 255, 255, 0.84);
+      max-width: 780px;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    main {
+      margin-top: -28px;
+      padding: 0 10px 36px;
+    }
+
+    .card,
+    details {
+      position: relative;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.66);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .card::before,
+    details::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .main-card {
+      min-height: 100%;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      user-select: none;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "＋";
+      float: right;
+      width: 30px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-2);
+      font-size: 18px;
+      line-height: 1;
+      transition: var(--transition);
+    }
+
+    details[open] > summary::after {
+      content: "−";
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .details-content {
+      margin-top: 16px;
     }
 
     .hint {
-      margin: 0 0 14px;
+      margin: 0 0 15px;
       color: var(--muted);
       font-size: 14px;
+      line-height: 1.45;
     }
 
     label {
       display: block;
-      margin: 12px 0 6px;
-      font-weight: 700;
-      font-size: 13px;
+      margin: 10px 0 6px;
+      font-weight: 850;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #14233a;
+      letter-spacing: -0.01em;
     }
 
-    input, select {
+    input,
+    select {
       display: block;
       width: 100%;
       min-height: 48px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 11px 12px;
-      background: #fff;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
+      background: rgba(255, 255, 255, 0.92);
       color: var(--text);
       font-size: 16px;
+      line-height: 1.2;
       outline: none;
       appearance: none;
       -webkit-appearance: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    input:hover,
+    select:hover {
+      border-color: rgba(37, 99, 235, 0.38);
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+    }
+
+    input:disabled,
+    select:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
     }
 
     select {
-      background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
-      background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #64748b 50%),
+        linear-gradient(135deg, #64748b 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) 20px,
+        calc(100% - 13px) 20px;
       background-size: 5px 5px, 5px 5px;
       background-repeat: no-repeat;
-      padding-right: 34px;
-    }
-
-    input:focus, select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, .14);
+      padding-right: 36px;
     }
 
     button {
@@ -131,83 +357,278 @@
       width: 100%;
       min-height: 48px;
       border: 0;
-      border-radius: 12px;
-      padding: 11px 14px;
-      background: var(--blue);
-      color: white;
-      font-weight: 800;
+      border-radius: var(--radius-sm);
+      padding: 10px 15px;
+      background: linear-gradient(180deg, #3b82f6, var(--blue));
+      color: #fff;
+      box-shadow: var(--shadow-blue);
+      font-weight: 900;
       font-size: 15px;
       line-height: 1.2;
       cursor: pointer;
       touch-action: manipulation;
-      -webkit-tap-highlight-color: rgba(37, 99, 235, .18);
+      -webkit-tap-highlight-color: rgba(37, 99, 235, 0.18);
       user-select: none;
       -webkit-user-select: none;
-      position: relative;
-      z-index: 2;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(37, 99, 235, 0.26);
     }
 
     button:active {
-      transform: scale(.99);
+      transform: translateY(0) scale(0.99);
+    }
+
+    button:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
     }
 
     .secondary {
-      background: var(--soft);
-      color: var(--blue2);
+      background: linear-gradient(180deg, #ffffff, var(--blue-soft));
+      color: var(--blue-2);
       border: 1px solid #bfdbfe;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.08);
     }
 
     .danger {
-      background: var(--red);
+      background: linear-gradient(180deg, #fee2e2, #fecaca);
       color: var(--red-text);
+      border: 1px solid #fecaca;
+      box-shadow: none;
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
     }
 
     .row {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .actions {
+    .date-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 108px;
+      gap: 12px;
+    }
+
+    .calendar-switch {
+      margin-top: 10px;
+      min-height: 46px;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(248, 250, 252, 0.92);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 8px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .calendar-switch:hover {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 12px 24px rgba(15, 23, 42, 0.07);
+    }
+
+    .switch-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 950;
+    }
+
+    .switch-track {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: var(--transition);
+      flex: 0 0 auto;
+      box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.18);
+    }
+
+    .switch-dot {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 7px rgba(15, 23, 42, 0.24);
+      transition: var(--transition);
+    }
+
+    .calendar-switch.active .switch-track {
+      background: var(--blue);
+    }
+
+    .calendar-switch.active .switch-dot {
+      left: 23px;
+    }
+
+    .calendar-panel {
+      display: none;
+      margin-top: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.07);
+    }
+
+    .calendar-panel.show {
+      display: block;
+    }
+
+    .calendar-headline {
+      display: grid;
+      grid-template-columns: 46px 1fr 46px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .calendar-title {
+      text-align: center;
+      font-weight: 950;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .calendar-headline button {
+      min-height: 42px;
+      border-radius: 13px;
+      box-shadow: none;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .calendar-cell {
+      min-height: 42px;
+      border-right: 1px solid rgba(226, 232, 240, 0.9);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      padding: 0;
+      background: #fff;
+    }
+
+    .calendar-cell:nth-child(7n) {
+      border-right: 0;
+    }
+
+    .calendar-weekday {
+      min-height: 32px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .calendar-empty {
+      background: #f8fafc;
+    }
+
+    .calendar-disabled {
+      color: #a8b4c7;
+      background: #fff;
+    }
+
+    .calendar-thursday {
+      background: var(--blue-soft);
+      color: var(--blue-2);
+      font-weight: 950;
+      cursor: pointer;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .calendar-thursday:hover {
+      background: var(--blue-soft-2);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .calendar-selected {
+      background: linear-gradient(180deg, #3b82f6, var(--blue));
+      color: #fff;
+    }
+
+    .counter-card {
+      padding: 16px;
+    }
+
+    .counter-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 12px;
+      align-items: end;
     }
 
-    .mode {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 8px 0 12px;
-    }
-
-    .mode button {
-      background: #f8fafc;
-      color: #334155;
-      border: 1px solid var(--line);
-    }
-
-    .mode button.active {
-      background: var(--blue);
+    .counter-result {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(96, 165, 250, 0.34), transparent 65%),
+        linear-gradient(135deg, #0f172a, #14213d);
       color: #fff;
-      border-color: var(--blue);
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 82px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .panel {
-      display: none;
+    .counter-result::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      bottom: -24px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(96, 165, 250, 0.18);
     }
 
-    .panel.active {
-      display: block;
+    .counter-main {
+      position: relative;
+      z-index: 1;
+      font-size: 32px;
+      line-height: 1.05;
+      font-weight: 950;
+      letter-spacing: -0.055em;
+    }
+
+    .counter-sub {
+      position: relative;
+      z-index: 1;
+      margin-top: 5px;
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 850;
     }
 
     .result {
       display: none;
       margin-top: 14px;
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--green);
+      padding: 15px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #f0fdf4, var(--green));
       border: 1px solid var(--green-line);
     }
 
@@ -216,26 +637,29 @@
     }
 
     .result .big {
-      font-size: 24px;
-      line-height: 1.15;
-      font-weight: 900;
-      margin-bottom: 4px;
+      font-size: 28px;
+      line-height: 1.08;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      margin-bottom: 5px;
     }
 
     .result .small {
       font-size: 14px;
-      color: #065f46;
+      color: var(--green-text);
+      line-height: 1.42;
     }
 
     .warning {
       display: none;
       margin-top: 12px;
-      padding: 12px;
-      border-radius: 12px;
-      background: var(--orange);
+      padding: 13px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fffaf0, var(--orange));
       border: 1px solid var(--orange-line);
-      color: #9a3412;
+      color: var(--orange-text);
       font-size: 14px;
+      line-height: 1.42;
     }
 
     .warning.show {
@@ -250,96 +674,41 @@
     }
 
     .warning-buttons button {
-      background: #fed7aa;
-      color: #9a3412;
-    }
-
-    .mini-controls {
-      display: grid;
-      grid-template-columns: 48px 1fr 48px;
-      gap: 8px;
-      align-items: center;
-      margin: 10px 0;
-    }
-
-    .mini-title {
-      text-align: center;
-      font-weight: 900;
-      font-size: 15px;
-    }
-
-    .mini-calendar {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-    }
-
-    .cell {
-      min-height: 44px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      padding: 0;
-      background: #fff;
-      color: #94a3b8;
-    }
-
-    .cell:nth-child(7n) {
-      border-right: 0;
-    }
-
-    .head {
-      min-height: 32px;
-      background: #f8fafc;
-      color: #64748b;
-      font-weight: 900;
-      font-size: 10px;
-    }
-
-    .empty {
-      background: #f8fafc;
-    }
-
-    button.cell {
-      min-height: 44px;
-      border-radius: 0;
-      background: var(--soft);
-      color: var(--blue2);
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      font-size: 13px;
-    }
-
-    button.cell.selected {
-      background: var(--blue);
-      color: #fff;
-    }
-
-    .countries {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 360px;
+      background: linear-gradient(180deg, #ffedd5, #fed7aa);
+      color: var(--orange-text);
+      border: 1px solid #fdba74;
+      box-shadow: none;
     }
 
     .table-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      margin-top: 12px;
+      border-radius: var(--radius-md);
     }
 
-    th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid var(--line);
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: var(--radius-md);
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.95);
       text-align: left;
       font-size: 14px;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
     }
 
     th {
@@ -347,662 +716,1883 @@
       color: #334155;
       font-size: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.035em;
+      font-weight: 950;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-2);
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .cell-date {
+      font-weight: 950;
+      font-size: 15px;
+      color: var(--green-text);
+      letter-spacing: -0.01em;
+    }
+
+    .cell-note {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .guide {
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 20rem),
+        rgba(255, 255, 255, 0.9);
+    }
+
+    .guide-content {
+      margin-top: 16px;
+    }
+
+    .guide-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.92));
+    }
+
+    .guide-hero h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .guide-hero p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .guide-badge {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #3b82f6, var(--blue));
+      color: #fff;
+      font-weight: 950;
+      box-shadow: var(--shadow-blue);
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .guide-card {
+      position: relative;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+    }
+
+    .guide-step {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: var(--blue-2);
+      font-weight: 950;
+      margin-bottom: 10px;
+    }
+
+    .guide-card h4 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .guide-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .guide-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .guide code {
+      padding: 2px 6px;
+      border-radius: 7px;
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .guide-flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 18px;
+      background: #f8fafc;
+    }
+
+    .flow-item {
+      padding: 12px;
+      border-radius: 15px;
+      background: #fff;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+    }
+
+    .flow-item span {
+      display: block;
+      font-size: 17px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .flow-item small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .flow-arrow {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .guide-notes {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .guide-notes > div {
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--blue-soft);
+      border: 1px solid #bfdbfe;
+    }
+
+    .guide-notes h4 {
+      margin: 0 0 5px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .guide-notes p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .country-group {
+      background: #fff;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: var(--radius-md);
+      padding: 0;
+      box-shadow: none;
+      margin-top: 10px;
+    }
+
+    .country-group summary {
+      padding: 13px;
+      font-size: 16px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .country-group-body {
+      padding: 0 12px 12px;
     }
 
     .month-list {
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
+      margin-top: 12px;
     }
 
     .month {
-      border: 1px solid var(--line);
-      border-radius: 14px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: var(--radius-md);
       overflow: hidden;
       background: #fff;
     }
 
     .month-title {
-      padding: 10px;
-      background: #f8fafc;
-      border-bottom: 1px solid var(--line);
-      font-weight: 900;
+      padding: 11px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+      font-weight: 950;
     }
 
     .pills {
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
-      padding: 10px;
+      padding: 11px;
     }
 
-    .pill {
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: var(--soft);
-      color: var(--blue2);
-      font-size: 12px;
+    .footer {
+      padding: 18px 10px 28px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
       font-weight: 800;
     }
 
-    .notice {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 13px;
+    .footer span {
+      display: inline-flex;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.24);
     }
 
     @media (min-width: 720px) {
-      .grid2 {
-        display: grid;
+      .topbar {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .nav {
+        justify-content: center;
+      }
+
+      .grid-main {
         grid-template-columns: 1fr 1fr;
-        gap: 14px;
       }
 
       .row {
         grid-template-columns: 1fr 1fr;
       }
 
-      .actions {
-        grid-template-columns: auto auto;
-        justify-content: start;
+      .counter-grid {
+        grid-template-columns: 220px minmax(260px, 1fr) 130px 105px;
       }
 
-      .actions button {
-        width: auto;
+      .warning-buttons {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .guide-hero {
+        grid-template-columns: 1fr auto;
+      }
+
+      .guide-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .guide-flow {
+        grid-template-columns: 1fr 42px 1fr 42px 1fr;
+        align-items: stretch;
+      }
+
+      .flow-arrow {
+        display: flex;
+      }
+
+      .guide-notes {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .month-list {
         grid-template-columns: repeat(3, 1fr);
       }
     }
+
+    @media (min-width: 1040px) {
+      .month-list {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .card,
+      details {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .date-row {
+        grid-template-columns: minmax(0, 1fr) 94px;
+      }
+
+      .counter-main {
+        font-size: 28px;
+      }
+
+      .calendar-cell {
+        min-height: 38px;
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header class="top">
     <div class="wrap">
-      <h1>FSD / FCR Calculator</h1>
-      <p>Расчёт дат поставки и отгрузки. FSD всегда должен быть четвергом.</p>
+      <div class="topbar">
+        <a class="brand" href="#top">FSD / FCR</a>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#calculator" data-i18n="navCalculator">Calculator</a>
+          <a href="#acceleration" data-i18n="navAcceleration">Delivery acceleration</a>
+          <a href="#countries" data-i18n="navCountries">Countries & days</a>
+          <a href="#outputCalendar" data-i18n="navCalendar">Output calendar</a>
+          <a href="#guide" data-i18n="navGuide">Guide</a>
+        </nav>
+
+        <div class="lang-switch" aria-label="Language switch">
+          <button type="button" class="lang-button active" data-lang="en">EN</button>
+          <button type="button" class="lang-button" data-lang="ru">RU</button>
+        </div>
+      </div>
+
+      <h1 data-i18n="heroTitle">FSD / FCR Calculator</h1>
+      <p data-i18n="heroText">Calculate FCR, FSD and delivery acceleration options in one place.</p>
     </div>
   </header>
 
   <main>
     <div class="wrap">
-      <div class="card">
-        <p class="notice"><b>Важно для телефона:</b> откройте файл в Safari или Chrome. Встроенный предпросмотр WhatsApp, Telegram, Gmail, Google Drive или SharePoint иногда блокирует JavaScript.</p>
-      </div>
 
-      <section class="grid2">
-        <div class="card">
-          <h2>1. FSD → FCR</h2>
-          <p class="hint">Выберите FSD и страну. Система рассчитает FCR.</p>
+      <section id="calculator" class="grid-main">
+        <div class="card main-card">
+          <h2>FSD → FCR</h2>
+          <p class="hint" data-i18n="fsdHint">Enter FSD manually or choose a Thursday in the calendar. Format: 1510 or 15.10.</p>
 
-          <label>Способ ввода FSD</label>
-          <div class="mode">
-            <button type="button" id="modeManual" class="active">Ручной ввод</button>
-            <button type="button" id="modeCalendar">Календарь</button>
-          </div>
+          <div class="date-row">
+            <div>
+              <label for="fsdText">FSD</label>
+              <input id="fsdText" inputmode="numeric" placeholder="1510" />
+            </div>
 
-          <div id="manualPanel" class="panel active">
-            <div class="row">
-              <div>
-                <label for="fsdInput">FSD</label>
-                <input id="fsdInput" inputmode="numeric" placeholder="15.10.2026 или 15.10">
-              </div>
-              <div>
-                <label for="fsdYear">Год, если не указан</label>
-                <select id="fsdYear"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
-              </div>
+            <div>
+              <label for="fsdYear" data-i18n="year">Year</label>
+              <select id="fsdYear">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+              </select>
             </div>
           </div>
 
-          <div id="calendarPanel" class="panel">
-            <label for="fsdCalendarValue">FSD из календаря</label>
-            <input id="fsdCalendarValue" readonly="" placeholder="Выберите четверг ниже">
-            <div class="mini-controls">
-              <button type="button" class="secondary" id="prevMonth">←</button>
-              <div id="miniTitle" class="mini-title">Октябрь 2026</div>
-              <button type="button" class="secondary" id="nextMonth">→</button>
+          <button type="button" id="toggleFsdCalendar" class="calendar-switch">
+            <span class="switch-left" data-i18n="calendar">Calendar</span>
+            <span class="switch-track">
+              <span class="switch-dot"></span>
+            </span>
+          </button>
+
+          <div id="fsdCalendarPanel" class="calendar-panel">
+            <div class="calendar-headline">
+              <button type="button" id="prevFsdMonth" class="secondary">←</button>
+              <div id="fsdCalendarTitle" class="calendar-title">—</div>
+              <button type="button" id="nextFsdMonth" class="secondary">→</button>
             </div>
-            <div id="miniCalendar" class="mini-calendar"><div class="mini-grid"><div class="cell head">ПН</div><div class="cell head">ВТ</div><div class="cell head">СР</div><div class="cell head">ЧТ</div><div class="cell head">ПТ</div><div class="cell head">СБ</div><div class="cell head">ВС</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><button type="button" class="cell choose-calendar-fsd" data-date="01.10.2026">1</button><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><button type="button" class="cell choose-calendar-fsd" data-date="08.10.2026">8</button><div class="cell">9</div><div class="cell">10</div><div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell">14</div><button type="button" class="cell choose-calendar-fsd" data-date="15.10.2026">15</button><div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div><div class="cell">21</div><button type="button" class="cell choose-calendar-fsd" data-date="22.10.2026">22</button><div class="cell">23</div><div class="cell">24</div><div class="cell">25</div><div class="cell">26</div><div class="cell">27</div><div class="cell">28</div><button type="button" class="cell choose-calendar-fsd" data-date="29.10.2026">29</button><div class="cell">30</div><div class="cell">31</div></div></div>
+            <div id="fsdCalendarGrid"></div>
           </div>
 
-          <label for="countryFromFsd">Страна</label>
-          <select id="countryFromFsd"><option value="Вьетнам">Вьетнам — 50 дн.</option><option value="Индия">Индия — 59 дн.</option><option value="Индия Air">Индия Air — 20 дн.</option><option value="Китай">Китай — 50 дн.</option><option value="Bangladesh">Bangladesh — 65 дн.</option></select>
+          <div class="row">
+            <div>
+              <label for="countryFromFsd" data-i18n="country">Country</label>
+              <select id="countryFromFsd"></select>
+            </div>
 
-          <div class="actions">
-            <button type="button" id="calcFcr">Рассчитать FCR</button>
-            <button type="button" id="copyFcr" class="secondary">Скопировать</button>
+            <div>
+              <label for="laneFromFsd" data-i18n="deliveryMethod">Delivery method</label>
+              <select id="laneFromFsd"></select>
+            </div>
           </div>
 
           <div id="fsdWarning" class="warning"></div>
           <div id="fcrResult" class="result"></div>
         </div>
 
-        <div class="card">
-          <h2>2. FCR → FSD</h2>
-          <p class="hint">Введите FCR. FSD автоматически переносится на ближайший четверг вперёд.</p>
+        <div class="card main-card">
+          <h2>FCR → FSD</h2>
+          <p class="hint" data-i18n="fcrHint">Enter FCR as day and month. FSD is moved to the nearest Thursday forward.</p>
+
+          <div class="date-row">
+            <div>
+              <label for="fcrText">FCR</label>
+              <input id="fcrText" inputmode="numeric" placeholder="3008" />
+            </div>
+
+            <div>
+              <label for="fcrYear" data-i18n="year">Year</label>
+              <select id="fcrYear">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
 
           <div class="row">
             <div>
-              <label for="fcrInput">FCR</label>
-              <input id="fcrInput" inputmode="numeric" placeholder="30.08.2026 или 30.08">
+              <label for="countryFromFcr" data-i18n="country">Country</label>
+              <select id="countryFromFcr"></select>
             </div>
+
             <div>
-              <label for="fcrYear">Год, если не указан</label>
-              <select id="fcrYear"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
+              <label for="laneFromFcr" data-i18n="deliveryMethod">Delivery method</label>
+              <select id="laneFromFcr"></select>
             </div>
           </div>
 
-          <label for="countryFromFcr">Страна</label>
-          <select id="countryFromFcr"><option value="Вьетнам">Вьетнам — 50 дн.</option><option value="Индия">Индия — 59 дн.</option><option value="Индия Air">Индия Air — 20 дн.</option><option value="Китай">Китай — 50 дн.</option><option value="Bangladesh">Bangladesh — 65 дн.</option></select>
-
-          <div class="actions">
-            <button type="button" id="calcFsd">Рассчитать FSD</button>
-            <button type="button" id="copyFsd" class="secondary">Скопировать</button>
-          </div>
-
-          <div id="fsdResult" class="result show"><div class="big">FSD: 01.10.2026</div><div class="small">Bangladesh: 65 дней доставки. FCR: 27.07.2026. Предварительная дата: 30.09.2026 (СР), перенос вперёд: +1 дн.</div></div>
+          <div id="fsdResult" class="result"></div>
         </div>
       </section>
 
-      <section class="card">
-        <h2>Настройки стран</h2>
-        <p class="hint">Можно добавить или изменить срок доставки.</p>
+      <section class="card counter-card">
+        <h2 data-i18n="daysToFcrTitle">Days to FCR from today</h2>
+
+        <div class="counter-grid">
+          <div class="counter-result">
+            <div id="daysToFcrMain" class="counter-main">—</div>
+            <div id="daysToFcrSub" class="counter-sub" data-i18n="fcrNotSelected">FCR is not selected</div>
+          </div>
+
+          <div>
+            <label for="counterSource" data-i18n="fcrSource">FCR source</label>
+            <select id="counterSource">
+              <option value="fromFsd" data-i18n="sourceFsd">From FSD → FCR</option>
+              <option value="fromFcr" data-i18n="sourceFcr">From FCR → FSD</option>
+              <option value="manual" data-i18n="sourceManual">Manual input</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="manualFcr">FCR</label>
+            <input id="manualFcr" inputmode="numeric" placeholder="3008" disabled />
+          </div>
+
+          <div>
+            <label for="manualYear" data-i18n="year">Year</label>
+            <select id="manualYear" disabled>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section id="acceleration" class="card">
+        <h2 data-i18n="accelerationTitle">Delivery acceleration</h2>
+        <p class="hint" data-i18n="accelerationHint">Enter FCR and country. The table shows FSD in this order: Original FSD, Sea-Truck, Sea-Air, Air.</p>
+
+        <div class="date-row">
+          <div>
+            <label for="accelFcrText">FCR</label>
+            <input id="accelFcrText" inputmode="numeric" placeholder="3008" />
+          </div>
+
+          <div>
+            <label for="accelYear" data-i18n="year">Year</label>
+            <select id="accelYear">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+        </div>
 
         <div class="row">
           <div>
-            <label for="newCountry">Страна</label>
-            <input id="newCountry" placeholder="Например: Bangladesh">
+            <label for="accelCountry" data-i18n="country">Country</label>
+            <select id="accelCountry"></select>
           </div>
+
           <div>
-            <label for="newDays">Дней доставки</label>
-            <input id="newDays" type="number" min="0" inputmode="numeric" placeholder="45">
+            <label>&nbsp;</label>
+            <button type="button" id="calcAcceleration" data-i18n="calculateOptions">Calculate options</button>
           </div>
         </div>
 
-        <div class="actions">
-          <button type="button" id="saveCountry">Добавить / обновить</button>
-          <button type="button" id="resetCountries" class="secondary">Вернуть стандартные</button>
-        </div>
-
-        <div class="table-scroll" style="margin-top:12px;">
-          <table class="countries">
-            <thead>
-              <tr>
-                <th>Страна</th>
-                <th>Дней</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody id="countryTable"><tr><td><b>Вьетнам</b></td><td>50</td><td><button type="button" class="danger delete-country" data-index="0">Удалить</button></td></tr><tr><td><b>Индия</b></td><td>59</td><td><button type="button" class="danger delete-country" data-index="1">Удалить</button></td></tr><tr><td><b>Индия Air</b></td><td>20</td><td><button type="button" class="danger delete-country" data-index="2">Удалить</button></td></tr><tr><td><b>Китай</b></td><td>50</td><td><button type="button" class="danger delete-country" data-index="3">Удалить</button></td></tr><tr><td><b>Bangladesh</b></td><td>65</td><td><button type="button" class="danger delete-country" data-index="4">Удалить</button></td></tr></tbody>
-          </table>
-        </div>
+        <div id="accelerationResult" class="result"></div>
       </section>
 
-      <section class="card">
-        <h2>Календарь четвергов</h2>
-        <p class="hint">Все возможные даты FSD на 2026 и 2027.</p>
+      <details id="countries">
+        <summary data-i18n="countriesTitle">Countries and delivery days</summary>
 
-        <label for="calendarYear">Год</label>
-        <select id="calendarYear">
-          <option value="2026">2026</option>
-          <option value="2027">2027</option>
-        </select>
+        <div class="details-content">
+          <p class="hint" data-i18n="countriesHint">Data is grouped by country. Changes are saved only in the user's browser.</p>
 
-        <div class="actions">
-          <button type="button" id="copyThursdays" class="secondary">Скопировать все четверги года</button>
+          <div class="row">
+            <div>
+              <label for="newCountry" data-i18n="country">Country</label>
+              <input id="newCountry" data-i18n-placeholder="countryPlaceholder" placeholder="for example: Bangladesh" />
+            </div>
+
+            <div>
+              <label for="newPoint" data-i18n="shippingPoint">Shipping point</label>
+              <input id="newPoint" data-i18n-placeholder="pointPlaceholder" placeholder="for example: Shanghai" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="newMethod" data-i18n="deliveryMethod">Delivery method</label>
+              <input id="newMethod" data-i18n-placeholder="methodPlaceholder" placeholder="for example: Sea-Truck" />
+            </div>
+
+            <div>
+              <label for="newDays" data-i18n="deliveryDays">Delivery days</label>
+              <input id="newDays" type="number" min="0" inputmode="numeric" placeholder="45" />
+            </div>
+          </div>
+
+          <div class="row">
+            <button type="button" id="saveLane" data-i18n="addUpdate">Add / update</button>
+            <button type="button" id="resetLanes" class="secondary" data-i18n="resetDefaults">Reset defaults</button>
+          </div>
+
+          <div id="laneGroups"></div>
         </div>
+      </details>
 
-        <div id="thursdayCalendar" class="month-list" style="margin-top:12px;"><div class="month"><div class="month-title">Январь</div><div class="pills"><span class="pill">01.01.2026</span><span class="pill">08.01.2026</span><span class="pill">15.01.2026</span><span class="pill">22.01.2026</span><span class="pill">29.01.2026</span></div></div><div class="month"><div class="month-title">Февраль</div><div class="pills"><span class="pill">05.02.2026</span><span class="pill">12.02.2026</span><span class="pill">19.02.2026</span><span class="pill">26.02.2026</span></div></div><div class="month"><div class="month-title">Март</div><div class="pills"><span class="pill">05.03.2026</span><span class="pill">12.03.2026</span><span class="pill">19.03.2026</span><span class="pill">26.03.2026</span></div></div><div class="month"><div class="month-title">Апрель</div><div class="pills"><span class="pill">02.04.2026</span><span class="pill">09.04.2026</span><span class="pill">16.04.2026</span><span class="pill">23.04.2026</span><span class="pill">30.04.2026</span></div></div><div class="month"><div class="month-title">Май</div><div class="pills"><span class="pill">07.05.2026</span><span class="pill">14.05.2026</span><span class="pill">21.05.2026</span><span class="pill">28.05.2026</span></div></div><div class="month"><div class="month-title">Июнь</div><div class="pills"><span class="pill">04.06.2026</span><span class="pill">11.06.2026</span><span class="pill">18.06.2026</span><span class="pill">25.06.2026</span></div></div><div class="month"><div class="month-title">Июль</div><div class="pills"><span class="pill">02.07.2026</span><span class="pill">09.07.2026</span><span class="pill">16.07.2026</span><span class="pill">23.07.2026</span><span class="pill">30.07.2026</span></div></div><div class="month"><div class="month-title">Август</div><div class="pills"><span class="pill">06.08.2026</span><span class="pill">13.08.2026</span><span class="pill">20.08.2026</span><span class="pill">27.08.2026</span></div></div><div class="month"><div class="month-title">Сентябрь</div><div class="pills"><span class="pill">03.09.2026</span><span class="pill">10.09.2026</span><span class="pill">17.09.2026</span><span class="pill">24.09.2026</span></div></div><div class="month"><div class="month-title">Октябрь</div><div class="pills"><span class="pill">01.10.2026</span><span class="pill">08.10.2026</span><span class="pill">15.10.2026</span><span class="pill">22.10.2026</span><span class="pill">29.10.2026</span></div></div><div class="month"><div class="month-title">Ноябрь</div><div class="pills"><span class="pill">05.11.2026</span><span class="pill">12.11.2026</span><span class="pill">19.11.2026</span><span class="pill">26.11.2026</span></div></div><div class="month"><div class="month-title">Декабрь</div><div class="pills"><span class="pill">03.12.2026</span><span class="pill">10.12.2026</span><span class="pill">17.12.2026</span><span class="pill">24.12.2026</span><span class="pill">31.12.2026</span></div></div></div>
-      </section>
+      <details id="outputCalendar">
+        <summary data-i18n="outputCalendarTitle">Output calendar 2026/2027</summary>
+
+        <div class="details-content">
+          <p class="hint" data-i18n="calendarHint">The last Thursday of a month belongs to the next FSD month. Example: 29.01.2026 is displayed in February.</p>
+
+          <div>
+            <label for="calendarYear" data-i18n="year">Year</label>
+            <select id="calendarYear">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+
+          <div id="thursdayCalendar" class="month-list"></div>
+        </div>
+      </details>
+
+      <details id="guide" class="guide" open>
+        <summary data-i18n="guideTitle">Quick guide</summary>
+
+        <div class="guide-content">
+          <div class="guide-hero">
+            <div>
+              <h3 data-i18n="guideHeroTitle">Fast scenario</h3>
+              <p data-i18n="guideHeroText">Use this guide to quickly understand which block to choose and what to enter.</p>
+            </div>
+            <div class="guide-badge">FSD / FCR</div>
+          </div>
+
+          <div class="guide-grid">
+            <div class="guide-card">
+              <div class="guide-step">1</div>
+              <h4 data-i18n="guideFsdTitle">You have FSD</h4>
+              <p data-i18n="guideFsdText">Use the FSD → FCR block.</p>
+              <ul>
+                <li data-i18n="guideFsdLi1">Enter FSD: 1510 or 15.10</li>
+                <li data-i18n="guideFsdLi2">Choose year</li>
+                <li data-i18n="guideFsdLi3">Choose country and delivery method</li>
+                <li data-i18n="guideFsdLi4">Get FCR date</li>
+              </ul>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-step">2</div>
+              <h4 data-i18n="guideFcrTitle">You have FCR</h4>
+              <p data-i18n="guideFcrText">Use the FCR → FSD block.</p>
+              <ul>
+                <li data-i18n="guideFcrLi1">Enter FCR: 3008 or 30.08</li>
+                <li data-i18n="guideFcrLi2">Choose year</li>
+                <li data-i18n="guideFcrLi3">Choose country and delivery method</li>
+                <li data-i18n="guideFcrLi4">FSD moves to the nearest Thursday forward</li>
+              </ul>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-step">3</div>
+              <h4 data-i18n="guideAccelTitle">You need acceleration</h4>
+              <p data-i18n="guideAccelText">Use the Delivery acceleration block.</p>
+              <ul>
+                <li data-i18n="guideAccelLi1">Enter FCR</li>
+                <li data-i18n="guideAccelLi2">Choose country</li>
+                <li data-i18n="guideAccelLi3">The site shows FSD by Original, Sea-Truck, Sea-Air and Air</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-flow">
+            <div class="flow-item">
+              <span>FSD</span>
+              <small data-i18n="flowFsd">date when product arrives in stores</small>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-item">
+              <span>FCR</span>
+              <small data-i18n="flowFcr">shipping date</small>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-item">
+              <span data-i18n="flowCounterTitle">Days to FCR</span>
+              <small data-i18n="flowCounterText">counter from today</small>
+            </div>
+          </div>
+
+          <div class="guide-notes">
+            <div>
+              <h4 data-i18n="rulesTitle">Date rules</h4>
+              <p data-i18n="rulesText">FSD is always Thursday. If another date is entered, the site offers the nearest Thursday backward and forward.</p>
+            </div>
+
+            <div>
+              <h4 data-i18n="formatsTitle">Input formats</h4>
+              <p data-i18n="formatsText">You can enter 1510, 15.10, 15102026 or 15.10.2026.</p>
+            </div>
+
+            <div>
+              <h4 data-i18n="dataTitle">Country data</h4>
+              <p data-i18n="dataText">Settings are saved only in the browser. To change data for everyone, update the code on GitHub.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
     </div>
   </main>
+
+  <footer class="footer">
+    <span>Made by Alekasandr Volkov. Powered by GPT 5.5</span>
+  </footer>
 
   <script>
     (function () {
       "use strict";
 
-      var DEFAULT_COUNTRIES = [
-         { name: "Вьетнам", days: 50 },
-        { name: "Китай", days: 50 },
-        { name: "Индия", days: 59 },
-        { name: "Индия Air", days: 20 },
-        { name: "Bangladesh", days: 65 }
+      const I18N = {
+        en: {
+          months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          weekdays: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+          calendarHeads: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+          text: {
+            navCalculator: "Calculator",
+            navAcceleration: "Delivery acceleration",
+            navCountries: "Countries & days",
+            navCalendar: "Output calendar",
+            navGuide: "Guide",
+
+            heroTitle: "FSD / FCR Calculator",
+            heroText: "Calculate FCR, FSD and delivery acceleration options in one place.",
+
+            fsdHint: "Enter FSD manually or choose a Thursday in the calendar. Format: 1510 or 15.10.",
+            fcrHint: "Enter FCR as day and month. FSD is moved to the nearest Thursday forward.",
+            year: "Year",
+            calendar: "Calendar",
+            country: "Country",
+            deliveryMethod: "Delivery method",
+
+            daysToFcrTitle: "Days to FCR from today",
+            fcrNotSelected: "FCR is not selected",
+            fcrSource: "FCR source",
+            sourceFsd: "From FSD → FCR",
+            sourceFcr: "From FCR → FSD",
+            sourceManual: "Manual input",
+
+            accelerationTitle: "Delivery acceleration",
+            accelerationHint: "Enter FCR and country. The table shows FSD in this order: Original FSD, Sea-Truck, Sea-Air, Air.",
+            calculateOptions: "Calculate options",
+
+            countriesTitle: "Countries and delivery days",
+            countriesHint: "Data is grouped by country. Changes are saved only in the user's browser.",
+            shippingPoint: "Shipping point",
+            deliveryDays: "Delivery days",
+            countryPlaceholder: "for example: Bangladesh",
+            pointPlaceholder: "for example: Shanghai",
+            methodPlaceholder: "for example: Sea-Truck",
+            addUpdate: "Add / update",
+            resetDefaults: "Reset defaults",
+
+            outputCalendarTitle: "Output calendar 2026/2027",
+            calendarHint: "The last Thursday of a month belongs to the next FSD month. Example: 29.01.2026 is displayed in February.",
+
+            guideTitle: "Quick guide",
+            guideHeroTitle: "Fast scenario",
+            guideHeroText: "Use this guide to quickly understand which block to choose and what to enter.",
+            guideFsdTitle: "You have FSD",
+            guideFsdText: "Use the FSD → FCR block.",
+            guideFsdLi1: "Enter FSD: 1510 or 15.10",
+            guideFsdLi2: "Choose year",
+            guideFsdLi3: "Choose country and delivery method",
+            guideFsdLi4: "Get FCR date",
+            guideFcrTitle: "You have FCR",
+            guideFcrText: "Use the FCR → FSD block.",
+            guideFcrLi1: "Enter FCR: 3008 or 30.08",
+            guideFcrLi2: "Choose year",
+            guideFcrLi3: "Choose country and delivery method",
+            guideFcrLi4: "FSD moves to the nearest Thursday forward",
+            guideAccelTitle: "You need acceleration",
+            guideAccelText: "Use the Delivery acceleration block.",
+            guideAccelLi1: "Enter FCR",
+            guideAccelLi2: "Choose country",
+            guideAccelLi3: "The site shows FSD by Original, Sea-Truck, Sea-Air and Air",
+            flowFsd: "date when product arrives in stores",
+            flowFcr: "shipping date",
+            flowCounterTitle: "Days to FCR",
+            flowCounterText: "counter from today",
+            rulesTitle: "Date rules",
+            rulesText: "FSD is always Thursday. If another date is entered, the site offers the nearest Thursday backward and forward.",
+            formatsTitle: "Input formats",
+            formatsText: "You can enter 1510, 15.10, 15102026 or 15.10.2026.",
+            dataTitle: "Country data",
+            dataText: "Settings are saved only in the browser. To change data for everyone, update the code on GitHub.",
+
+            fcrLabel: "FCR",
+            fsdLabel: "FSD",
+            dateError: "Enter date in DD.MM or DDMM format",
+            numberDateError: "Date must contain only numbers",
+            invalidDateError: "This date does not exist",
+            noLaneError: "Delivery days are not set for the selected country and method",
+            noCountryData: "No data for selected country",
+            fsdNotThursday: "FSD is not Thursday",
+            choosePrevThursday: "Choose Thursday backward",
+            chooseNextThursday: "Choose Thursday forward",
+            alreadyThursday: "The date is already Thursday, no move needed.",
+            rawDate: "Preliminary date",
+            moveForward: "move forward",
+            deliveryDaysText: "delivery days",
+            daysShort: "days",
+            sourceFromFsd: "from FSD → FCR",
+            sourceFromFcr: "from FCR → FSD",
+            sourceManualText: "manual input",
+            countryRows: "rows",
+            point: "Point",
+            method: "Method",
+            days: "Days",
+            action: "Action",
+            delete: "Delete",
+            originalFsd: "Original FSD",
+            seaTruck: "Sea-Truck",
+            seaAir: "Sea-Air",
+            air: "Air"
+          }
+        },
+
+        ru: {
+          months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+          weekdays: ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
+          calendarHeads: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
+          text: {
+            navCalculator: "Калькулятор",
+            navAcceleration: "Ускорение доставки",
+            navCountries: "Страны и дни",
+            navCalendar: "Календарь выводов",
+            navGuide: "Справочник",
+
+            heroTitle: "Калькулятор FSD / FCR",
+            heroText: "Расчёт FCR, FSD и вариантов ускорения доставки в одном месте.",
+
+            fsdHint: "Введите FSD вручную или выберите четверг в календаре. Формат: 1510 или 15.10.",
+            fcrHint: "Введите FCR как день и месяц. FSD автоматически переносится на ближайший четверг вперёд.",
+            year: "Год",
+            calendar: "Календарь",
+            country: "Страна",
+            deliveryMethod: "Способ доставки",
+
+            daysToFcrTitle: "Дней до FCR от сегодня",
+            fcrNotSelected: "FCR не выбран",
+            fcrSource: "Источник FCR",
+            sourceFsd: "От FSD → FCR",
+            sourceFcr: "От FCR → FSD",
+            sourceManual: "Ручной ввод",
+
+            accelerationTitle: "Ускорение доставки",
+            accelerationHint: "Введите FCR и страну. Таблица покажет FSD в порядке: Original FSD, Sea-Truck, Sea-Air, Air.",
+            calculateOptions: "Посчитать варианты",
+
+            countriesTitle: "Страны и количество дней доставки",
+            countriesHint: "Данные сгруппированы по странам. Изменения сохраняются только в браузере пользователя.",
+            shippingPoint: "Точка отправки",
+            deliveryDays: "Дней доставки",
+            countryPlaceholder: "например: Bangladesh",
+            pointPlaceholder: "например: Shanghai",
+            methodPlaceholder: "например: Sea-Truck",
+            addUpdate: "Добавить / обновить",
+            resetDefaults: "Вернуть стандартные",
+
+            outputCalendarTitle: "Календарь выводов 2026/2027",
+            calendarHint: "Последний четверг месяца относится к следующему FSD-месяцу. Например, 29.01.2026 отображается в феврале.",
+
+            guideTitle: "Справочник",
+            guideHeroTitle: "Быстрый сценарий",
+            guideHeroText: "Используйте этот справочник, чтобы быстро понять, какой блок выбрать и что вводить.",
+            guideFsdTitle: "Есть FSD",
+            guideFsdText: "Используйте блок FSD → FCR.",
+            guideFsdLi1: "Введите FSD: 1510 или 15.10",
+            guideFsdLi2: "Выберите год",
+            guideFsdLi3: "Выберите страну и способ доставки",
+            guideFsdLi4: "Получите дату FCR",
+            guideFcrTitle: "Есть FCR",
+            guideFcrText: "Используйте блок FCR → FSD.",
+            guideFcrLi1: "Введите FCR: 3008 или 30.08",
+            guideFcrLi2: "Выберите год",
+            guideFcrLi3: "Выберите страну и способ доставки",
+            guideFcrLi4: "FSD переносится на ближайший четверг вперёд",
+            guideAccelTitle: "Нужно ускорение",
+            guideAccelText: "Используйте блок Ускорение доставки.",
+            guideAccelLi1: "Введите FCR",
+            guideAccelLi2: "Выберите страну",
+            guideAccelLi3: "Сайт покажет FSD по Original, Sea-Truck, Sea-Air и Air",
+            flowFsd: "дата поступления продукта в магазины",
+            flowFcr: "дата отгрузки",
+            flowCounterTitle: "Дней до FCR",
+            flowCounterText: "счётчик от сегодня",
+            rulesTitle: "Правила дат",
+            rulesText: "FSD всегда четверг. Если введена другая дата, сайт предложит ближайший четверг назад и вперёд.",
+            formatsTitle: "Форматы ввода",
+            formatsText: "Можно вводить 1510, 15.10, 15102026 или 15.10.2026.",
+            dataTitle: "Данные стран",
+            dataText: "Настройки сохраняются только в браузере. Чтобы изменить данные для всех, обновите код на GitHub.",
+
+            fcrLabel: "FCR",
+            fsdLabel: "FSD",
+            dateError: "Введите дату в формате ДД.ММ или ДДММ",
+            numberDateError: "Дата должна содержать только числа",
+            invalidDateError: "Такой даты не существует",
+            noLaneError: "Для выбранной страны и способа доставки не задан срок",
+            noCountryData: "Для выбранной страны нет данных",
+            fsdNotThursday: "FSD не четверг",
+            choosePrevThursday: "Выбрать четверг назад",
+            chooseNextThursday: "Выбрать четверг вперёд",
+            alreadyThursday: "Дата уже четверг, перенос не нужен.",
+            rawDate: "Предварительная дата",
+            moveForward: "перенос вперёд",
+            deliveryDaysText: "дней доставки",
+            daysShort: "дн.",
+            sourceFromFsd: "от FSD → FCR",
+            sourceFromFcr: "от FCR → FSD",
+            sourceManualText: "ручной ввод",
+            countryRows: "строк",
+            point: "Точка",
+            method: "Способ",
+            days: "Дней",
+            action: "Действие",
+            delete: "Удалить",
+            originalFsd: "Original FSD",
+            seaTruck: "Sea-Truck",
+            seaAir: "Sea-Air",
+            air: "Air"
+          }
+        }
+      };
+
+      const COUNTRY_LABELS = {
+        China: { en: "China", ru: "Китай" },
+        Vietnam: { en: "Vietnam", ru: "Вьетнам" },
+        India: { en: "India", ru: "Индия" },
+        Bangladesh: { en: "Bangladesh", ru: "Bangladesh" }
+      };
+
+      const DEFAULT_LANES = [
+        { id: "china-shanghai-sea-train", country: "China", point: "Shanghai", method: "Sea-Train", days: 50, original: true },
+        { id: "china-shanghai-sea-truck", country: "China", point: "Shanghai", method: "Sea-Truck", days: 44 },
+        { id: "china-shanghai-truck", country: "China", point: "Shanghai", method: "Truck", days: 36 },
+        { id: "china-shanghai-sea-air", country: "China", point: "Shanghai", method: "Sea-Air", days: 36 },
+        { id: "china-shanghai-air", country: "China", point: "Shanghai", method: "Air", days: 18 },
+
+        { id: "china-qingdao-sea-train", country: "China", point: "Qingdao", method: "Sea-Train", days: 50, original: true },
+        { id: "china-qingdao-sea-truck", country: "China", point: "Qingdao", method: "Sea-Truck", days: 44 },
+        { id: "china-qingdao-truck", country: "China", point: "Qingdao", method: "Truck", days: 36 },
+        { id: "china-qingdao-sea-air", country: "China", point: "Qingdao", method: "Sea-Air", days: 36 },
+        { id: "china-qingdao-air", country: "China", point: "Qingdao", method: "Air", days: 18 },
+
+        { id: "vietnam-haiphong-sea-train", country: "Vietnam", point: "Haiphong", method: "Sea-Train", days: 50, original: true },
+        { id: "vietnam-haiphong-sea-truck", country: "Vietnam", point: "Haiphong", method: "Sea-Truck", days: 44 },
+        { id: "vietnam-haiphong-sea-air", country: "Vietnam", point: "Haiphong", method: "Sea-Air", days: 36 },
+        { id: "vietnam-haiphong-air", country: "Vietnam", point: "Haiphong", method: "Air", days: 17 },
+
+        { id: "bangladesh-chittagong-sea-truck", country: "Bangladesh", point: "Chittagong", method: "Sea-Truck", days: 65, original: true },
+        { id: "bangladesh-chittagong-sea-air", country: "Bangladesh", point: "Chittagong", method: "Sea-Air", days: 57 },
+        { id: "bangladesh-chittagong-air", country: "Bangladesh", point: "Chittagong", method: "Air", days: 20 },
+
+        { id: "india-tutikorin-sea-hub-reel", country: "India", point: "Tutikorin", method: "Sea(Hub/Reel)", days: 59, original: true },
+        { id: "india-tutikorin-sea-truck", country: "India", point: "Tutikorin", method: "Sea-Truck", days: 79 },
+        { id: "india-tutikorin-air", country: "India", point: "Tutikorin", method: "Air", days: 20 }
       ];
 
-      var MONTHS = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-      var WEEKDAYS = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
-      var fsdMode = "manual";
-      var miniMonth = 9;
-      var miniYear = 2026;
-      var countries = loadCountries();
+      const METHOD_ORDER = {
+        "Sea-Train": 1,
+        "Sea(Hub/Reel)": 1,
+        "Sea-Truck": 2,
+        "Truck": 3,
+        "Sea-Air": 4,
+        "Air": 5
+      };
 
-      function byId(id) {
-        return document.getElementById(id);
+      const STORE_KEY = "fsdFcrLanes_v15";
+      const $ = id => document.getElementById(id);
+
+      let currentLang = "en";
+      let lanes = loadLanes();
+      let lastFcrFromFsd = null;
+      let lastFcrFromFcrBlock = null;
+      let fsdCalendarMonth = 0;
+      let fsdCalendarYear = 2026;
+
+      function t(key) {
+        return I18N[currentLang].text[key] || key;
       }
 
-      function safeClick(id, fn) {
-        var el = byId(id);
-        if (!el) return;
-
-        el.addEventListener("click", function (event) {
-          event.preventDefault();
-          fn(event);
-        });
-
-        el.addEventListener("touchend", function (event) {
-          event.preventDefault();
-          fn(event);
-        }, { passive: false });
+      function pad(value) {
+        return String(value).padStart(2, "0");
       }
 
-      function pad(n) {
-        return String(n).padStart(2, "0");
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, char => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        }[char]));
+      }
+
+      function displayCountry(country) {
+        return COUNTRY_LABELS[country]?.[currentLang] || country;
+      }
+
+      function makeId(country, point, method) {
+        return [country, point, method]
+          .join("-")
+          .toLowerCase()
+          .replace(/[^a-zа-я0-9]+/gi, "-")
+          .replace(/^-+|-+$/g, "");
       }
 
       function formatDate(date) {
-        return pad(date.getDate()) + "." + pad(date.getMonth() + 1) + "." + date.getFullYear();
+        return `${pad(date.getDate())}.${pad(date.getMonth() + 1)}.${date.getFullYear()}`;
       }
 
-      function dayName(date) {
-        return WEEKDAYS[date.getDay()];
+      function formatShortDate(date) {
+        return `${pad(date.getDate())}.${pad(date.getMonth() + 1)}`;
       }
 
-      function parseDate(value, fallbackYear) {
-        var text = String(value || "").trim().replace(/\//g, ".").replace(/-/g, ".");
-        var parts = text.split(".").filter(Boolean);
-
-        if (parts.length < 2 || parts.length > 3) {
-          throw new Error("Введите дату в формате ДД.ММ или ДД.ММ.ГГГГ");
-        }
-
-        var day = Number(parts[0]);
-        var month = Number(parts[1]);
-        var year = parts[2] ? Number(parts[2]) : Number(fallbackYear);
-        var date = new Date(year, month - 1, day);
-
-        if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) {
-          throw new Error("Дата должна содержать только числа");
-        }
-
-        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
-          throw new Error("Такой даты не существует");
-        }
-
-        return date;
+      function todayStart() {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate());
       }
 
       function addDays(date, days) {
-        var result = new Date(date);
+        const result = new Date(date);
         result.setDate(result.getDate() + days);
         return result;
       }
 
+      function daysBetween(start, end) {
+        return Math.round((end - start) / 86400000);
+      }
+
+      function dayName(date) {
+        return I18N[currentLang].weekdays[date.getDay()];
+      }
+
       function nextThursdayOnOrAfter(date) {
-        var result = new Date(date);
-        var shift = (4 - result.getDay() + 7) % 7;
+        const result = new Date(date);
+        const shift = (4 - result.getDay() + 7) % 7;
         result.setDate(result.getDate() + shift);
         return result;
       }
 
       function previousThursdayOnOrBefore(date) {
-        var result = new Date(date);
-        var shift = (result.getDay() - 4 + 7) % 7;
+        const result = new Date(date);
+        const shift = (result.getDay() - 4 + 7) % 7;
         result.setDate(result.getDate() - shift);
         return result;
       }
 
-      function loadCountries() {
+      function isLastThursdayOfMonth(date) {
+        return date.getDay() === 4 && addDays(date, 7).getMonth() !== date.getMonth();
+      }
+
+      function normalizeDateText(value) {
+        const raw = String(value || "").trim();
+
+        if (!raw) return "";
+
+        const compact = raw.replace(/\D/g, "");
+
+        if (/^\d{4}$/.test(compact) && !/[./\-\s]/.test(raw)) {
+          return `${compact.slice(0, 2)}.${compact.slice(2, 4)}`;
+        }
+
+        if (/^\d{8}$/.test(compact) && !/[./\-\s]/.test(raw)) {
+          return `${compact.slice(0, 2)}.${compact.slice(2, 4)}.${compact.slice(4, 8)}`;
+        }
+
+        return raw
+          .replace(/\//g, ".")
+          .replace(/-/g, ".")
+          .replace(/\s+/g, ".")
+          .replace(/\.+/g, ".");
+      }
+
+      function parseTextDate(value, year) {
+        const text = normalizeDateText(value);
+        const parts = text.split(".").filter(Boolean);
+
+        if (parts.length < 2 || parts.length > 3) {
+          throw new Error(t("dateError"));
+        }
+
+        const day = Number(parts[0]);
+        const month = Number(parts[1]);
+        const finalYear = parts[2] ? Number(parts[2]) : Number(year);
+        const date = new Date(finalYear, month - 1, day);
+
+        if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(finalYear)) {
+          throw new Error(t("numberDateError"));
+        }
+
+        if (date.getFullYear() !== finalYear || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          throw new Error(t("invalidDateError"));
+        }
+
+        return date;
+      }
+
+      function normalizeDateField(inputId, yearId) {
+        const input = $(inputId);
+        const yearSelect = $(yearId);
+        const value = input.value.trim();
+
+        if (!value) return;
+
         try {
-          var saved = JSON.parse(localStorage.getItem("fsdFcrCountries_v2"));
-          if (Array.isArray(saved) && saved.length) return saved;
-        } catch (e) {}
-        return DEFAULT_COUNTRIES.slice();
-      }
+          const date = parseTextDate(value, Number(yearSelect.value));
 
-      function saveCountries() {
-        try {
-          localStorage.setItem("fsdFcrCountries_v2", JSON.stringify(countries));
-        } catch (e) {}
-      }
-
-      function renderYears() {
-        var years = [2026, 2027, 2028, 2029, 2030];
-        ["fsdYear", "fcrYear"].forEach(function (id) {
-          byId(id).innerHTML = years.map(function (y) {
-            return '<option value="' + y + '">' + y + '</option>';
-          }).join("");
-        });
-      }
-
-      function renderCountries() {
-        ["countryFromFsd", "countryFromFcr"].forEach(function (id) {
-          var select = byId(id);
-          var current = select.value;
-          select.innerHTML = countries.map(function (c) {
-            return '<option value="' + escapeHtml(c.name) + '">' + escapeHtml(c.name) + " — " + c.days + " дн.</option>";
-          }).join("");
-          if (countries.some(function (c) { return c.name === current; })) {
-            select.value = current;
+          if ([...yearSelect.options].some(option => option.value === String(date.getFullYear()))) {
+            yearSelect.value = String(date.getFullYear());
           }
+
+          input.value = formatShortDate(date);
+        } catch (error) {}
+      }
+
+      function loadLanes() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORE_KEY));
+          if (Array.isArray(saved) && saved.length) return saved;
+        } catch (error) {}
+
+        return DEFAULT_LANES.slice();
+      }
+
+      function saveLanes() {
+        try {
+          localStorage.setItem(STORE_KEY, JSON.stringify(lanes));
+        } catch (error) {}
+      }
+
+      function getCountries() {
+        return Array.from(new Set(lanes.map(item => item.country)))
+          .sort((a, b) => displayCountry(a).localeCompare(displayCountry(b), currentLang === "ru" ? "ru" : "en"));
+      }
+
+      function getLanesByCountry(country) {
+        return lanes
+          .filter(item => item.country === country)
+          .sort((a, b) => {
+            const pointDiff = String(a.point || "").localeCompare(String(b.point || ""), currentLang === "ru" ? "ru" : "en");
+            if (pointDiff !== 0) return pointDiff;
+
+            return (METHOD_ORDER[a.method] || 99) - (METHOD_ORDER[b.method] || 99);
+          });
+      }
+
+      function laneLabel(lane) {
+        const point = lane.point ? ` / ${lane.point}` : "";
+        return `${lane.method}${point} — ${lane.days} ${t("daysShort")}`;
+      }
+
+      function getLaneFromSelect(selectId) {
+        const id = $(selectId).value;
+        const lane = lanes.find(item => item.id === id);
+
+        if (!lane) {
+          throw new Error(t("noLaneError"));
+        }
+
+        return lane;
+      }
+
+      function renderStaticText() {
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll("[data-i18n]").forEach(node => {
+          const key = node.getAttribute("data-i18n");
+          node.textContent = t(key);
         });
 
-        byId("countryTable").innerHTML = countries.map(function (c, i) {
-          return "<tr>" +
-            "<td><b>" + escapeHtml(c.name) + "</b></td>" +
-            "<td>" + c.days + "</td>" +
-            '<td><button type="button" class="danger delete-country" data-index="' + i + '">Удалить</button></td>' +
-            "</tr>";
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(node => {
+          const key = node.getAttribute("data-i18n-placeholder");
+          node.setAttribute("placeholder", t(key));
+        });
+
+        document.querySelectorAll(".lang-button").forEach(button => {
+          button.classList.toggle("active", button.dataset.lang === currentLang);
+        });
+      }
+
+      function renderCountrySelect(selectId, oldValue) {
+        const select = $(selectId);
+        const countries = getCountries();
+
+        select.innerHTML = countries
+          .map(country => `<option value="${escapeHtml(country)}">${escapeHtml(displayCountry(country))}</option>`)
+          .join("");
+
+        if (countries.includes(oldValue)) {
+          select.value = oldValue;
+        }
+      }
+
+      function renderLaneSelect(countryId, laneId, oldValue) {
+        const country = $(countryId).value;
+        const countryLanes = getLanesByCountry(country);
+        const select = $(laneId);
+
+        select.innerHTML = countryLanes.map(lane => {
+          return `<option value="${escapeHtml(lane.id)}">${escapeHtml(laneLabel(lane))}</option>`;
+        }).join("");
+
+        if (countryLanes.some(lane => lane.id === oldValue)) {
+          select.value = oldValue;
+        }
+      }
+
+      function renderControls() {
+        const oldCountryFsd = $("countryFromFsd").value;
+        const oldLaneFsd = $("laneFromFsd").value;
+        const oldCountryFcr = $("countryFromFcr").value;
+        const oldLaneFcr = $("laneFromFcr").value;
+        const oldAccelCountry = $("accelCountry").value;
+
+        renderCountrySelect("countryFromFsd", oldCountryFsd);
+        renderCountrySelect("countryFromFcr", oldCountryFcr);
+        renderCountrySelect("accelCountry", oldAccelCountry);
+
+        renderLaneSelect("countryFromFsd", "laneFromFsd", oldLaneFsd);
+        renderLaneSelect("countryFromFcr", "laneFromFcr", oldLaneFcr);
+
+        renderLaneGroups();
+      }
+
+      function renderLaneGroups() {
+        const countries = getCountries();
+
+        $("laneGroups").innerHTML = countries.map(country => {
+          const countryLanes = getLanesByCountry(country);
+
+          const rows = countryLanes.map(item => {
+            const index = lanes.indexOf(item);
+
+            return `
+              <tr>
+                <td>${escapeHtml(item.point || "—")}</td>
+                <td><span class="pill">${escapeHtml(item.method)}</span></td>
+                <td>${item.days}</td>
+                <td><button type="button" class="danger delete-lane" data-index="${index}">${t("delete")}</button></td>
+              </tr>
+            `;
+          }).join("");
+
+          return `
+            <details class="country-group">
+              <summary>${escapeHtml(displayCountry(country))} · ${countryLanes.length} ${t("countryRows")}</summary>
+              <div class="country-group-body">
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>${t("point")}</th>
+                        <th>${t("method")}</th>
+                        <th>${t("days")}</th>
+                        <th>${t("action")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+          `;
         }).join("");
       }
 
-      function escapeHtml(text) {
-        return String(text).replace(/[&<>"']/g, function (m) {
-          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[m];
-        });
-      }
-
-      function getCountry(selectId) {
-        var name = byId(selectId).value;
-        return countries.find(function (c) { return c.name === name; }) || countries[0];
-      }
-
       function showResult(id, html) {
-        var el = byId(id);
-        el.innerHTML = html;
-        el.classList.add("show");
+        const box = $(id);
+        box.innerHTML = html;
+        box.classList.add("show");
       }
 
-      function showError(id, message) {
-        showResult(id, '<div class="big">Ошибка</div><div class="small">' + escapeHtml(message) + "</div>");
+      function clearResult(id) {
+        const box = $(id);
+        box.innerHTML = "";
+        box.classList.remove("show");
       }
 
-      function setMode(mode) {
-        fsdMode = mode;
-        byId("modeManual").classList.toggle("active", mode === "manual");
-        byId("modeCalendar").classList.toggle("active", mode === "calendar");
-        byId("manualPanel").classList.toggle("active", mode === "manual");
-        byId("calendarPanel").classList.toggle("active", mode === "calendar");
-        if (mode === "calendar") renderMiniCalendar();
+      function clearWarning() {
+        $("fsdWarning").innerHTML = "";
+        $("fsdWarning").classList.remove("show");
       }
 
-      function setFsdDate(dateString) {
-        byId("fsdInput").value = dateString;
-        byId("fsdCalendarValue").value = dateString;
+      function setFsdDate(date) {
+        $("fsdText").value = formatShortDate(date);
+        $("fsdYear").value = String(date.getFullYear());
+        fsdCalendarMonth = date.getMonth();
+        fsdCalendarYear = date.getFullYear();
+        renderFsdCalendar();
         calculateFcr();
-        renderMiniCalendar();
+      }
+
+      function syncCalendarToInput() {
+        const value = $("fsdText").value.trim();
+        const year = Number($("fsdYear").value);
+
+        if (value) {
+          try {
+            const date = parseTextDate(value, year);
+            fsdCalendarMonth = date.getMonth();
+            fsdCalendarYear = date.getFullYear();
+            return;
+          } catch (error) {}
+        }
+
+        fsdCalendarYear = year;
+      }
+
+      function renderFsdCalendar() {
+        $("fsdCalendarTitle").textContent = `${I18N[currentLang].months[fsdCalendarMonth]} ${fsdCalendarYear}`;
+
+        const selectedValue = $("fsdText").value.trim();
+        const selectedYear = Number($("fsdYear").value);
+        let selectedDate = null;
+
+        try {
+          if (selectedValue) {
+            selectedDate = parseTextDate(selectedValue, selectedYear);
+          }
+        } catch (error) {}
+
+        let html = `<div class="calendar-grid">`;
+
+        I18N[currentLang].calendarHeads.forEach(day => {
+          html += `<div class="calendar-cell calendar-weekday">${day}</div>`;
+        });
+
+        const firstDay = new Date(fsdCalendarYear, fsdCalendarMonth, 1);
+        const daysInMonth = new Date(fsdCalendarYear, fsdCalendarMonth + 1, 0).getDate();
+        const offset = (firstDay.getDay() + 6) % 7;
+
+        for (let i = 0; i < offset; i++) {
+          html += `<div class="calendar-cell calendar-empty"></div>`;
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(fsdCalendarYear, fsdCalendarMonth, day);
+          const isThursday = date.getDay() === 4;
+          const isSelected = selectedDate && formatDate(date) === formatDate(selectedDate);
+
+          if (isThursday) {
+            html += `
+              <button
+                type="button"
+                class="calendar-cell calendar-thursday ${isSelected ? "calendar-selected" : ""}"
+                data-date="${formatDate(date)}"
+              >
+                ${day}
+              </button>
+            `;
+          } else {
+            html += `<div class="calendar-cell calendar-disabled">${day}</div>`;
+          }
+        }
+
+        html += `</div>`;
+        $("fsdCalendarGrid").innerHTML = html;
       }
 
       function calculateFcr() {
-        var warning = byId("fsdWarning");
-        warning.classList.remove("show");
-        warning.innerHTML = "";
+        clearWarning();
+        normalizeDateField("fsdText", "fsdYear");
 
         try {
-          var value = fsdMode === "calendar" ? byId("fsdCalendarValue").value : byId("fsdInput").value;
-          var fsd = parseDate(value, byId("fsdYear").value);
-          var country = getCountry("countryFromFsd");
-          var fcr = addDays(fsd, -country.days);
+          const fsdValue = $("fsdText").value.trim();
 
-          if (fsd.getDay() !== 4) {
-            var prev = previousThursdayOnOrBefore(fsd);
-            var next = nextThursdayOnOrAfter(fsd);
-
-            warning.innerHTML =
-              '<b>Внимание:</b> указанная FSD дата — ' + dayName(fsd) + ', а FSD должен быть четвергом.' +
-              '<div class="warning-buttons">' +
-                '<button type="button" class="choose-fsd" data-date="' + formatDate(prev) + '">Выбрать четверг назад: ' + formatDate(prev) + '</button>' +
-                '<button type="button" class="choose-fsd" data-date="' + formatDate(next) + '">Выбрать четверг вперёд: ' + formatDate(next) + '</button>' +
-              '</div>';
-            warning.classList.add("show");
+          if (!fsdValue) {
+            clearResult("fcrResult");
+            lastFcrFromFsd = null;
+            updateCounter();
+            return;
           }
 
-          showResult("fcrResult",
-            '<div class="big">FCR: ' + formatDate(fcr) + '</div>' +
-            '<div class="small">' + escapeHtml(country.name) + ': ' + country.days + ' дней доставки. FSD: ' + formatDate(fsd) + ' (' + dayName(fsd) + ').</div>'
-          );
-        } catch (e) {
-          showError("fcrResult", e.message);
+          const fsd = parseTextDate(fsdValue, Number($("fsdYear").value));
+
+          if (fsd.getDay() !== 4) {
+            const prev = previousThursdayOnOrBefore(fsd);
+            const next = nextThursdayOnOrAfter(fsd);
+
+            $("fsdWarning").innerHTML = `
+              <b>${t("fsdNotThursday")}:</b> ${formatDate(fsd)} (${dayName(fsd)}).
+              <div class="warning-buttons">
+                <button type="button" class="choose-fsd" data-date="${formatDate(prev)}">
+                  ${t("choosePrevThursday")}: ${formatDate(prev)}
+                </button>
+                <button type="button" class="choose-fsd" data-date="${formatDate(next)}">
+                  ${t("chooseNextThursday")}: ${formatDate(next)}
+                </button>
+              </div>
+            `;
+
+            $("fsdWarning").classList.add("show");
+            clearResult("fcrResult");
+            lastFcrFromFsd = null;
+            updateCounter();
+            return;
+          }
+
+          const lane = getLaneFromSelect("laneFromFsd");
+          const fcr = addDays(fsd, -lane.days);
+
+          lastFcrFromFsd = fcr;
+
+          showResult("fcrResult", `
+            <div class="big">${t("fcrLabel")}: ${formatDate(fcr)}</div>
+            <div class="small">
+              ${escapeHtml(displayCountry(lane.country))}, ${escapeHtml(laneLabel(lane))}.
+              ${t("fsdLabel")}: ${formatDate(fsd)} (${dayName(fsd)}).
+            </div>
+          `);
+
+          updateCounter();
+        } catch (error) {
+          showResult("fcrResult", `
+            <div class="big">Error</div>
+            <div class="small">${escapeHtml(error.message)}</div>
+          `);
         }
       }
 
       function calculateFsd() {
-        try {
-          var fcr = parseDate(byId("fcrInput").value, byId("fcrYear").value);
-          var country = getCountry("countryFromFcr");
-          var raw = addDays(fcr, country.days);
-          var finalDate = nextThursdayOnOrAfter(raw);
-          var moved = Math.round((finalDate - raw) / 86400000);
-          var moveText = moved === 0
-            ? "Дата уже приходится на четверг, перенос не нужен."
-            : "Предварительная дата: " + formatDate(raw) + " (" + dayName(raw) + "), перенос вперёд: +" + moved + " дн.";
+        normalizeDateField("fcrText", "fcrYear");
 
-          showResult("fsdResult",
-            '<div class="big">FSD: ' + formatDate(finalDate) + '</div>' +
-            '<div class="small">' + escapeHtml(country.name) + ': ' + country.days + ' дней доставки. FCR: ' + formatDate(fcr) + '. ' + moveText + '</div>'
-          );
-        } catch (e) {
-          showError("fsdResult", e.message);
+        try {
+          const fcrValue = $("fcrText").value.trim();
+
+          if (!fcrValue) {
+            clearResult("fsdResult");
+            lastFcrFromFcrBlock = null;
+            updateCounter();
+            return;
+          }
+
+          const fcr = parseTextDate(fcrValue, Number($("fcrYear").value));
+          const lane = getLaneFromSelect("laneFromFcr");
+          const rawFsd = addDays(fcr, lane.days);
+          const fsd = nextThursdayOnOrAfter(rawFsd);
+          const moved = daysBetween(rawFsd, fsd);
+
+          lastFcrFromFcrBlock = fcr;
+
+          const moveText = moved === 0
+            ? t("alreadyThursday")
+            : `${t("rawDate")}: ${formatDate(rawFsd)} (${dayName(rawFsd)}), ${t("moveForward")}: +${moved} ${t("daysShort")}`;
+
+          showResult("fsdResult", `
+            <div class="big">${t("fsdLabel")}: ${formatDate(fsd)}</div>
+            <div class="small">
+              ${escapeHtml(displayCountry(lane.country))}, ${escapeHtml(laneLabel(lane))}.
+              ${t("fcrLabel")}: ${formatDate(fcr)}. ${moveText}
+            </div>
+          `);
+
+          updateCounter();
+        } catch (error) {
+          showResult("fsdResult", `
+            <div class="big">Error</div>
+            <div class="small">${escapeHtml(error.message)}</div>
+          `);
         }
       }
 
-      function addOrUpdateCountry() {
-        var name = byId("newCountry").value.trim();
-        var days = Number(byId("newDays").value);
+      function findLaneForPoint(pointLanes, type) {
+        if (type === "original") {
+          return pointLanes.find(lane => lane.original)
+            || pointLanes.slice().sort((a, b) => b.days - a.days)[0];
+        }
 
-        if (!name || !Number.isInteger(days) || days < 0) {
-          alert("Введите страну и корректное количество дней.");
+        if (type === "Sea-Truck") return pointLanes.find(lane => lane.method === "Sea-Truck");
+        if (type === "Sea-Air") return pointLanes.find(lane => lane.method === "Sea-Air");
+        if (type === "Air") return pointLanes.find(lane => lane.method === "Air");
+
+        return null;
+      }
+
+      function renderFsdCell(fcr, lane) {
+        if (!lane) return "—";
+
+        const fsd = nextThursdayOnOrAfter(addDays(fcr, lane.days));
+
+        return `
+          <div class="cell-date">${formatDate(fsd)}</div>
+          <div class="cell-note">${escapeHtml(lane.method)} · ${lane.days} ${t("daysShort")}</div>
+        `;
+      }
+
+      function calculateAcceleration() {
+        normalizeDateField("accelFcrText", "accelYear");
+
+        try {
+          const fcrValue = $("accelFcrText").value.trim();
+
+          if (!fcrValue) {
+            clearResult("accelerationResult");
+            return;
+          }
+
+          const fcr = parseTextDate(fcrValue, Number($("accelYear").value));
+          const country = $("accelCountry").value;
+          const countryLanes = getLanesByCountry(country);
+
+          if (!countryLanes.length) {
+            throw new Error(t("noCountryData"));
+          }
+
+          const points = Array.from(new Set(countryLanes.map(lane => lane.point || "—")));
+
+          const rows = points.map(point => {
+            const pointLanes = countryLanes.filter(lane => (lane.point || "—") === point);
+
+            const original = findLaneForPoint(pointLanes, "original");
+            const seaTruck = findLaneForPoint(pointLanes, "Sea-Truck");
+            const seaAir = findLaneForPoint(pointLanes, "Sea-Air");
+            const air = findLaneForPoint(pointLanes, "Air");
+
+            return `
+              <tr>
+                <td><b>${escapeHtml(point)}</b></td>
+                <td>${renderFsdCell(fcr, original)}</td>
+                <td>${renderFsdCell(fcr, seaTruck)}</td>
+                <td>${renderFsdCell(fcr, seaAir)}</td>
+                <td>${renderFsdCell(fcr, air)}</td>
+              </tr>
+            `;
+          }).join("");
+
+          showResult("accelerationResult", `
+            <div class="big">${t("fcrLabel")}: ${formatDate(fcr)}</div>
+            <div class="small">${t("fsdLabel")} — ${escapeHtml(displayCountry(country))}</div>
+
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>${t("point")}</th>
+                    <th>${t("originalFsd")}</th>
+                    <th>${t("seaTruck")}</th>
+                    <th>${t("seaAir")}</th>
+                    <th>${t("air")}</th>
+                  </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          `);
+        } catch (error) {
+          showResult("accelerationResult", `
+            <div class="big">Error</div>
+            <div class="small">${escapeHtml(error.message)}</div>
+          `);
+        }
+      }
+
+      function getManualFcrDate() {
+        const value = $("manualFcr").value.trim();
+        if (!value) return null;
+        return parseTextDate(value, Number($("manualYear").value));
+      }
+
+      function updateCounter() {
+        const source = $("counterSource").value;
+        let date = null;
+        let sourceText = "";
+
+        $("manualFcr").disabled = source !== "manual";
+        $("manualYear").disabled = source !== "manual";
+
+        if (source === "fromFsd") {
+          date = lastFcrFromFsd;
+          sourceText = t("sourceFromFsd");
+        }
+
+        if (source === "fromFcr") {
+          date = lastFcrFromFcrBlock;
+          sourceText = t("sourceFromFcr");
+        }
+
+        if (source === "manual") {
+          normalizeDateField("manualFcr", "manualYear");
+
+          try {
+            date = getManualFcrDate();
+            sourceText = t("sourceManualText");
+          } catch (error) {
+            date = null;
+          }
+        }
+
+        if (!date) {
+          $("daysToFcrMain").textContent = "—";
+          $("daysToFcrSub").textContent = t("fcrNotSelected");
           return;
         }
 
-        var existing = countries.find(function (c) {
-          return c.name.toLowerCase() === name.toLowerCase();
-        });
+        const diff = daysBetween(todayStart(), date);
+
+        $("daysToFcrMain").textContent = `${diff} ${t("daysShort")}`;
+        $("daysToFcrSub").textContent = `${t("fcrLabel")} ${sourceText}: ${formatDate(date)}`;
+      }
+
+      function addOrUpdateLane() {
+        const country = $("newCountry").value.trim();
+        const point = $("newPoint").value.trim();
+        const method = $("newMethod").value.trim();
+        const days = Number($("newDays").value);
+
+        if (!country || !method || !Number.isInteger(days) || days < 0) {
+          alert(currentLang === "ru" ? "Введите страну, способ доставки и корректное количество дней." : "Enter country, delivery method and valid delivery days.");
+          return;
+        }
+
+        const id = makeId(country, point, method);
+        const existing = lanes.find(item => item.id === id);
 
         if (existing) {
-          existing.name = name;
+          existing.country = country;
+          existing.point = point;
+          existing.method = method;
           existing.days = days;
         } else {
-          countries.push({ name: name, days: days });
+          lanes.push({ id, country, point, method, days, original: false });
         }
 
-        countries.sort(function (a, b) {
-          return a.name.localeCompare(b.name, "ru");
-        });
+        saveLanes();
+        renderControls();
 
-        saveCountries();
-        renderCountries();
-        byId("newCountry").value = "";
-        byId("newDays").value = "";
+        $("newCountry").value = "";
+        $("newPoint").value = "";
+        $("newMethod").value = "";
+        $("newDays").value = "";
+
+        calculateFcr();
+        calculateFsd();
+        calculateAcceleration();
       }
 
-      function resetCountries() {
-        countries = DEFAULT_COUNTRIES.slice();
-        saveCountries();
-        renderCountries();
+      function resetLanes() {
+        lanes = DEFAULT_LANES.slice();
+        saveLanes();
+        renderControls();
+        calculateFcr();
+        calculateFsd();
+        calculateAcceleration();
       }
 
-      function getThursdaysByMonth(year) {
-        var result = [];
-        for (var month = 0; month < 12; month++) {
-          var dates = [];
-          var date = new Date(year, month, 1);
-          while (date.getMonth() === month) {
-            if (date.getDay() === 4) dates.push(new Date(date));
-            date.setDate(date.getDate() + 1);
+      function getBusinessMonthForThursday(date) {
+        let year = date.getFullYear();
+        let month = date.getMonth();
+
+        if (isLastThursdayOfMonth(date)) {
+          month += 1;
+
+          if (month > 11) {
+            month = 0;
+            year += 1;
           }
-          result.push(dates);
         }
+
+        return { year, month };
+      }
+
+      function getBusinessThursdayMonths(year) {
+        const result = Array.from({ length: 12 }, () => []);
+        const start = new Date(year - 1, 11, 1);
+        const end = new Date(year, 11, 31);
+        const cursor = new Date(start);
+
+        while (cursor <= end) {
+          if (cursor.getDay() === 4) {
+            const business = getBusinessMonthForThursday(cursor);
+
+            if (business.year === year) {
+              result[business.month].push(new Date(cursor));
+            }
+          }
+
+          cursor.setDate(cursor.getDate() + 1);
+        }
+
         return result;
       }
 
-      function renderBigCalendar() {
-        var year = Number(byId("calendarYear").value);
-        var months = getThursdaysByMonth(year);
-        byId("thursdayCalendar").innerHTML = months.map(function (dates, i) {
-          return '<div class="month">' +
-            '<div class="month-title">' + MONTHS[i] + '</div>' +
-            '<div class="pills">' + dates.map(function (d) {
-              return '<span class="pill">' + formatDate(d) + '</span>';
-            }).join("") + '</div>' +
-          '</div>';
+      function renderThursdayCalendar() {
+        const year = Number($("calendarYear").value);
+        const months = getBusinessThursdayMonths(year);
+
+        $("thursdayCalendar").innerHTML = months.map((dates, index) => {
+          return `
+            <div class="month">
+              <div class="month-title">${I18N[currentLang].months[index]}</div>
+              <div class="pills">
+                ${dates.map(date => `<span class="pill">${formatDate(date)}</span>`).join("")}
+              </div>
+            </div>
+          `;
         }).join("");
       }
 
-      function renderMiniCalendar() {
-        byId("miniTitle").textContent = MONTHS[miniMonth] + " " + miniYear;
+      function debounce(fn, delay = 160) {
+        let timer = null;
 
-        var selected = byId("fsdCalendarValue").value;
-        var first = new Date(miniYear, miniMonth, 1);
-        var daysInMonth = new Date(miniYear, miniMonth + 1, 0).getDate();
-        var heads = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-        var html = '<div class="mini-grid">';
-
-        heads.forEach(function (h) {
-          html += '<div class="cell head">' + h + '</div>';
-        });
-
-        var offset = (first.getDay() + 6) % 7;
-        for (var x = 0; x < offset; x++) {
-          html += '<div class="cell empty"></div>';
-        }
-
-        for (var day = 1; day <= daysInMonth; day++) {
-          var date = new Date(miniYear, miniMonth, day);
-          var formatted = formatDate(date);
-          if (date.getDay() === 4) {
-            var selectedClass = formatted === selected ? " selected" : "";
-            html += '<button type="button" class="cell choose-calendar-fsd' + selectedClass + '" data-date="' + formatted + '">' + day + '</button>';
-          } else {
-            html += '<div class="cell">' + day + '</div>';
-          }
-        }
-
-        html += "</div>";
-        byId("miniCalendar").innerHTML = html;
+        return function () {
+          clearTimeout(timer);
+          timer = setTimeout(fn, delay);
+        };
       }
 
-      function changeMiniMonth(delta) {
-        miniMonth += delta;
-        if (miniMonth < 0) {
-          miniMonth = 11;
-          miniYear -= 1;
-        }
-        if (miniMonth > 11) {
-          miniMonth = 0;
-          miniYear += 1;
-        }
-        renderMiniCalendar();
-      }
+      const scheduleFcr = debounce(calculateFcr);
+      const scheduleFsd = debounce(calculateFsd);
+      const scheduleAcceleration = debounce(calculateAcceleration);
+      const scheduleCounter = debounce(updateCounter);
 
-      function copyTextFromResult(id) {
-        var text = byId(id).innerText.trim();
-        if (!text) {
-          alert("Сначала выполните расчёт.");
-          return;
-        }
-        copyText(text);
-      }
-
-      function copyText(text) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(function () {
-            alert("Скопировано.");
-          }).catch(function () {
-            fallbackCopy(text);
+      function bindEnter(ids, callback) {
+        ids.forEach(id => {
+          $(id).addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              callback();
+            }
           });
-        } else {
-          fallbackCopy(text);
-        }
+        });
       }
 
-      function fallbackCopy(text) {
-        var area = document.createElement("textarea");
-        area.value = text;
-        area.style.position = "fixed";
-        area.style.left = "-9999px";
-        document.body.appendChild(area);
-        area.focus();
-        area.select();
-        try {
-          document.execCommand("copy");
-          alert("Скопировано.");
-        } catch (e) {
-          alert("Не удалось скопировать автоматически.");
-        }
-        document.body.removeChild(area);
+      function setLanguage(lang) {
+        currentLang = lang;
+        renderStaticText();
+        renderControls();
+        renderFsdCalendar();
+        renderThursdayCalendar();
+        calculateFcr();
+        calculateFsd();
+        calculateAcceleration();
+        updateCounter();
       }
 
-      function initEvents() {
-        safeClick("modeManual", function () { setMode("manual"); });
-        safeClick("modeCalendar", function () { setMode("calendar"); });
-        safeClick("prevMonth", function () { changeMiniMonth(-1); });
-        safeClick("nextMonth", function () { changeMiniMonth(1); });
-        safeClick("calcFcr", calculateFcr);
-        safeClick("calcFsd", calculateFsd);
-        safeClick("copyFcr", function () { copyTextFromResult("fcrResult"); });
-        safeClick("copyFsd", function () { copyTextFromResult("fsdResult"); });
-        safeClick("saveCountry", addOrUpdateCountry);
-        safeClick("resetCountries", resetCountries);
-        safeClick("copyThursdays", function () {
-          var year = Number(byId("calendarYear").value);
-          var list = getThursdaysByMonth(year).flat().map(formatDate).join("\n");
-          copyText(list);
+      function bindEvents() {
+        document.querySelectorAll(".lang-button").forEach(button => {
+          button.addEventListener("click", () => setLanguage(button.dataset.lang));
         });
 
-        byId("calendarYear").addEventListener("change", renderBigCalendar);
+        bindEnter(["fsdText"], calculateFcr);
+        bindEnter(["fcrText"], calculateFsd);
+        bindEnter(["accelFcrText"], calculateAcceleration);
+        bindEnter(["manualFcr"], updateCounter);
+        bindEnter(["newCountry", "newPoint", "newMethod", "newDays"], addOrUpdateLane);
 
-        document.addEventListener("click", function (event) {
-          var target = event.target;
-          if (!target) return;
+        $("fsdText").addEventListener("input", () => {
+          if ($("fsdCalendarPanel").classList.contains("show")) {
+            renderFsdCalendar();
+          }
+          scheduleFcr();
+        });
 
-          if (target.classList.contains("choose-fsd") || target.classList.contains("choose-calendar-fsd")) {
-            event.preventDefault();
-            setFsdDate(target.getAttribute("data-date"));
+        $("fcrText").addEventListener("input", scheduleFsd);
+        $("accelFcrText").addEventListener("input", scheduleAcceleration);
+        $("manualFcr").addEventListener("input", scheduleCounter);
+
+        ["fsdText", "fcrText", "accelFcrText", "manualFcr"].forEach(id => {
+          $(id).addEventListener("blur", () => {
+            if (id === "fsdText") {
+              normalizeDateField("fsdText", "fsdYear");
+              calculateFcr();
+            }
+
+            if (id === "fcrText") {
+              normalizeDateField("fcrText", "fcrYear");
+              calculateFsd();
+            }
+
+            if (id === "accelFcrText") {
+              normalizeDateField("accelFcrText", "accelYear");
+              calculateAcceleration();
+            }
+
+            if (id === "manualFcr") {
+              normalizeDateField("manualFcr", "manualYear");
+              updateCounter();
+            }
+          });
+        });
+
+        $("toggleFsdCalendar").addEventListener("click", () => {
+          syncCalendarToInput();
+          renderFsdCalendar();
+
+          $("fsdCalendarPanel").classList.toggle("show");
+          $("toggleFsdCalendar").classList.toggle("active", $("fsdCalendarPanel").classList.contains("show"));
+        });
+
+        $("prevFsdMonth").addEventListener("click", () => {
+          fsdCalendarMonth--;
+
+          if (fsdCalendarMonth < 0) {
+            fsdCalendarMonth = 11;
+            fsdCalendarYear--;
           }
 
-          if (target.classList.contains("delete-country")) {
-            event.preventDefault();
-            var index = Number(target.getAttribute("data-index"));
-            if (countries.length <= 1) {
-              alert("Нельзя удалить последнюю страну.");
-              return;
-            }
-            countries.splice(index, 1);
-            saveCountries();
-            renderCountries();
+          renderFsdCalendar();
+        });
+
+        $("nextFsdMonth").addEventListener("click", () => {
+          fsdCalendarMonth++;
+
+          if (fsdCalendarMonth > 11) {
+            fsdCalendarMonth = 0;
+            fsdCalendarYear++;
+          }
+
+          renderFsdCalendar();
+        });
+
+        $("fsdCalendarGrid").addEventListener("click", event => {
+          const target = event.target;
+
+          if (target.classList.contains("calendar-thursday")) {
+            const date = parseTextDate(target.getAttribute("data-date"), Number($("fsdYear").value));
+            setFsdDate(date);
           }
         });
 
-        document.addEventListener("touchend", function (event) {
-          var target = event.target;
-          if (!target) return;
+        $("fsdYear").addEventListener("change", () => {
+          syncCalendarToInput();
+          renderFsdCalendar();
+          calculateFcr();
+        });
 
-          if (target.classList.contains("choose-fsd") || target.classList.contains("choose-calendar-fsd")) {
-            event.preventDefault();
-            setFsdDate(target.getAttribute("data-date"));
+        $("countryFromFsd").addEventListener("change", () => {
+          renderLaneSelect("countryFromFsd", "laneFromFsd");
+          calculateFcr();
+        });
+
+        $("laneFromFsd").addEventListener("change", calculateFcr);
+
+        $("countryFromFcr").addEventListener("change", () => {
+          renderLaneSelect("countryFromFcr", "laneFromFcr");
+          calculateFsd();
+        });
+
+        $("laneFromFcr").addEventListener("change", calculateFsd);
+        $("fcrYear").addEventListener("change", calculateFsd);
+
+        $("accelCountry").addEventListener("change", calculateAcceleration);
+        $("accelYear").addEventListener("change", calculateAcceleration);
+
+        $("counterSource").addEventListener("change", updateCounter);
+        $("manualYear").addEventListener("change", updateCounter);
+
+        $("calcAcceleration").addEventListener("click", calculateAcceleration);
+        $("saveLane").addEventListener("click", addOrUpdateLane);
+        $("resetLanes").addEventListener("click", resetLanes);
+        $("calendarYear").addEventListener("change", renderThursdayCalendar);
+
+        document.addEventListener("click", event => {
+          const target = event.target;
+
+          if (target.classList.contains("choose-fsd")) {
+            const date = parseTextDate(target.getAttribute("data-date"), Number($("fsdYear").value));
+            setFsdDate(date);
           }
 
-          if (target.classList.contains("delete-country")) {
-            event.preventDefault();
-            var index = Number(target.getAttribute("data-index"));
-            if (countries.length <= 1) {
-              alert("Нельзя удалить последнюю страну.");
+          if (target.classList.contains("delete-lane")) {
+            const index = Number(target.getAttribute("data-index"));
+
+            if (lanes.length <= 1) {
+              alert(currentLang === "ru" ? "Нельзя удалить последнюю строку." : "You cannot delete the last row.");
               return;
             }
-            countries.splice(index, 1);
-            saveCountries();
-            renderCountries();
+
+            lanes.splice(index, 1);
+            saveLanes();
+            renderControls();
+            calculateFcr();
+            calculateFsd();
+            calculateAcceleration();
           }
-        }, { passive: false });
+        });
       }
 
       function init() {
-        renderYears();
-        renderCountries();
-        renderMiniCalendar();
-        renderBigCalendar();
-        initEvents();
+        const today = todayStart();
+
+        fsdCalendarYear = Number($("fsdYear").value);
+        fsdCalendarMonth = today.getMonth();
+
+        renderStaticText();
+        renderControls();
+        renderFsdCalendar();
+        renderThursdayCalendar();
+        bindEvents();
+        updateCounter();
       }
 
       if (document.readyState === "loading") {
@@ -1012,5 +2602,5 @@
       }
     })();
   </script>
-
-</body></html>
+</body>
+</html>
