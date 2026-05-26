@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -8,38 +8,37 @@
   <style>
     :root {
       --bg: #f5f7fb;
-      --bg-2: #eef3ff;
-      --card: rgba(255, 255, 255, 0.92);
+      --bg2: #eef3ff;
+      --card: rgba(255, 255, 255, 0.94);
       --text: #0b1f3a;
       --muted: #64748b;
-      --line: rgba(148, 163, 184, 0.28);
+      --line: rgba(148, 163, 184, 0.3);
 
       --blue: #2563eb;
-      --blue-2: #1d4ed8;
-      --blue-soft: #eff6ff;
-      --blue-soft-2: #dbeafe;
+      --blue2: #1d4ed8;
+      --blueSoft: #eff6ff;
+      --blueSoft2: #dbeafe;
 
       --green: #ecfdf5;
-      --green-line: #86efac;
-      --green-text: #047857;
+      --greenLine: #86efac;
+      --greenText: #047857;
 
       --orange: #fff7ed;
-      --orange-line: #fdba74;
-      --orange-text: #9a3412;
+      --orangeLine: #fdba74;
+      --orangeText: #9a3412;
 
       --red: #fee2e2;
-      --red-text: #991b1b;
+      --redLine: #f87171;
+      --redText: #991b1b;
 
       --dark: #0f172a;
 
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --radius-sm: 14px;
+      --radiusLg: 24px;
+      --radiusMd: 18px;
+      --radiusSm: 14px;
 
-      --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.06);
-      --shadow-md: 0 18px 45px rgba(15, 23, 42, 0.1);
-      --shadow-blue: 0 12px 28px rgba(37, 99, 235, 0.22);
-
+      --shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+      --shadowBlue: 0 10px 24px rgba(37, 99, 235, 0.2);
       --transition: 160ms ease;
     }
 
@@ -54,12 +53,11 @@
     html,
     body {
       margin: 0;
-      padding: 0;
       min-height: 100%;
       background:
         radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32rem),
-        radial-gradient(circle at top right, rgba(96, 165, 250, 0.16), transparent 30rem),
-        linear-gradient(180deg, var(--bg-2), var(--bg));
+        radial-gradient(circle at top right, rgba(96, 165, 250, 0.14), transparent 30rem),
+        linear-gradient(180deg, var(--bg2), var(--bg));
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       -webkit-text-size-adjust: 100%;
@@ -70,118 +68,42 @@
       min-height: 100vh;
     }
 
-    .top {
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .hero {
       position: relative;
       overflow: hidden;
       color: #fff;
-      padding: 18px 14px 46px;
+      padding: 24px 14px 44px;
       background:
-        radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.26), transparent 18rem),
-        radial-gradient(circle at 90% 0%, rgba(147, 197, 253, 0.38), transparent 22rem),
-        linear-gradient(135deg, #0f2f74 0%, #2563eb 58%, #3b82f6 100%);
+        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.24), transparent 18rem),
+        radial-gradient(circle at 90% 0%, rgba(147, 197, 253, 0.34), transparent 22rem),
+        linear-gradient(135deg, #0f2f74 0%, #2563eb 68%, #3b82f6 100%);
     }
 
-    .top::after {
+    .hero::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
       background-size: 42px 42px;
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent);
     }
 
-    .wrap {
+    .hero-inner {
       position: relative;
-      width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
       z-index: 1;
-    }
-
-    .topbar {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 26px;
-    }
-
-    .brand {
-      display: inline-flex;
-      width: fit-content;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 950;
-      text-decoration: none;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .nav a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      color: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 850;
-      transition: var(--transition);
-    }
-
-    .nav a:hover {
-      background: rgba(255, 255, 255, 0.24);
-      color: #fff;
-      transform: translateY(-1px);
-    }
-
-    .lang-switch {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      width: 132px;
-      padding: 4px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-    }
-
-    .lang-button {
-      min-height: 30px;
-      border-radius: 999px;
-      padding: 6px 10px;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.8);
-      box-shadow: none;
-      font-size: 12px;
-    }
-
-    .lang-button:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    .lang-button.active {
-      background: #fff;
-      color: var(--blue-2);
-      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.16);
+      gap: 18px;
+      align-items: start;
     }
 
     h1 {
@@ -206,11 +128,35 @@
       margin: 0;
     }
 
-    .top p {
+    .hero p {
       color: rgba(255, 255, 255, 0.84);
-      max-width: 780px;
+      max-width: 720px;
       font-size: 15px;
       line-height: 1.45;
+    }
+
+    .guide-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 42px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      text-decoration: none;
+      font-weight: 950;
+      font-size: 14px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition);
+    }
+
+    .guide-link:hover {
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-1px);
     }
 
     main {
@@ -222,13 +168,13 @@
     details {
       position: relative;
       background: var(--card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.66);
-      border-radius: var(--radius-lg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      border-radius: var(--radiusLg);
       padding: 18px;
       margin-bottom: 14px;
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
@@ -267,8 +213,8 @@
       display: inline-grid;
       place-items: center;
       border-radius: 999px;
-      background: var(--blue-soft);
-      color: var(--blue-2);
+      background: var(--blueSoft);
+      color: var(--blue2);
       font-size: 18px;
       line-height: 1;
       transition: var(--transition);
@@ -306,10 +252,10 @@
       display: block;
       width: 100%;
       min-height: 48px;
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.34);
+      border-radius: var(--radiusSm);
       padding: 10px 13px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       color: var(--text);
       font-size: 16px;
       line-height: 1.2;
@@ -319,9 +265,13 @@
       transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
     }
 
+    input::placeholder {
+      color: #94a3b8;
+    }
+
     input:hover,
     select:hover {
-      border-color: rgba(37, 99, 235, 0.38);
+      border-color: rgba(37, 99, 235, 0.4);
       background: #fff;
     }
 
@@ -330,6 +280,12 @@
       border-color: var(--blue);
       background: #fff;
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+    }
+
+    input.is-error,
+    select.is-error {
+      border-color: var(--redLine);
+      box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.16);
     }
 
     input:disabled,
@@ -357,11 +313,11 @@
       width: 100%;
       min-height: 48px;
       border: 0;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radiusSm);
       padding: 10px 15px;
       background: linear-gradient(180deg, #3b82f6, var(--blue));
       color: #fff;
-      box-shadow: var(--shadow-blue);
+      box-shadow: var(--shadowBlue);
       font-weight: 900;
       font-size: 15px;
       line-height: 1.2;
@@ -388,15 +344,15 @@
     }
 
     .secondary {
-      background: linear-gradient(180deg, #ffffff, var(--blue-soft));
-      color: var(--blue-2);
+      background: linear-gradient(180deg, #ffffff, var(--blueSoft));
+      color: var(--blue2);
       border: 1px solid #bfdbfe;
       box-shadow: 0 8px 18px rgba(37, 99, 235, 0.08);
     }
 
     .danger {
       background: linear-gradient(180deg, #fee2e2, #fecaca);
-      color: var(--red-text);
+      color: var(--redText);
       border: 1px solid #fecaca;
       box-shadow: none;
     }
@@ -424,9 +380,9 @@
       min-height: 46px;
       justify-content: space-between;
       gap: 12px;
-      background: rgba(248, 250, 252, 0.92);
+      background: rgba(248, 250, 252, 0.94);
       color: var(--text);
-      border: 1px solid rgba(148, 163, 184, 0.28);
+      border: 1px solid rgba(148, 163, 184, 0.3);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 8px 18px rgba(15, 23, 42, 0.04);
     }
 
@@ -476,7 +432,7 @@
       display: none;
       margin-top: 12px;
       border: 1px solid rgba(148, 163, 184, 0.28);
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       overflow: hidden;
       background: #fff;
       box-shadow: 0 14px 28px rgba(15, 23, 42, 0.07);
@@ -549,8 +505,8 @@
     }
 
     .calendar-thursday {
-      background: var(--blue-soft);
-      color: var(--blue-2);
+      background: var(--blueSoft);
+      color: var(--blue2);
       font-weight: 950;
       cursor: pointer;
       box-shadow: none;
@@ -558,7 +514,7 @@
     }
 
     .calendar-thursday:hover {
-      background: var(--blue-soft-2);
+      background: var(--blueSoft2);
       transform: none;
       box-shadow: none;
     }
@@ -627,13 +583,18 @@
       display: none;
       margin-top: 14px;
       padding: 15px;
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       background: linear-gradient(180deg, #f0fdf4, var(--green));
-      border: 1px solid var(--green-line);
+      border: 1px solid var(--greenLine);
     }
 
     .result.show {
       display: block;
+    }
+
+    .result.error {
+      background: linear-gradient(180deg, #fff1f2, var(--red));
+      border-color: var(--redLine);
     }
 
     .result .big {
@@ -646,18 +607,23 @@
 
     .result .small {
       font-size: 14px;
-      color: var(--green-text);
+      color: var(--greenText);
       line-height: 1.42;
+    }
+
+    .result.error .big,
+    .result.error .small {
+      color: var(--redText);
     }
 
     .warning {
       display: none;
       margin-top: 12px;
       padding: 13px;
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       background: linear-gradient(180deg, #fffaf0, var(--orange));
-      border: 1px solid var(--orange-line);
-      color: var(--orange-text);
+      border: 1px solid var(--orangeLine);
+      color: var(--orangeText);
       font-size: 14px;
       line-height: 1.42;
     }
@@ -675,7 +641,7 @@
 
     .warning-buttons button {
       background: linear-gradient(180deg, #ffedd5, #fed7aa);
-      color: var(--orange-text);
+      color: var(--orangeText);
       border: 1px solid #fdba74;
       box-shadow: none;
     }
@@ -684,17 +650,17 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       margin-top: 12px;
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
     }
 
     table {
       width: 100%;
-      min-width: 760px;
+      min-width: 720px;
       border-collapse: separate;
       border-spacing: 0;
       overflow: hidden;
       border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       background: #fff;
     }
 
@@ -726,8 +692,8 @@
       gap: 6px;
       padding: 5px 9px;
       border-radius: 999px;
-      background: var(--blue-soft);
-      color: var(--blue-2);
+      background: var(--blueSoft);
+      color: var(--blue2);
       font-size: 12px;
       font-weight: 950;
       white-space: nowrap;
@@ -736,7 +702,7 @@
     .cell-date {
       font-weight: 950;
       font-size: 15px;
-      color: var(--green-text);
+      color: var(--greenText);
       letter-spacing: -0.01em;
     }
 
@@ -750,11 +716,45 @@
     .guide {
       background:
         radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 20rem),
-        rgba(255, 255, 255, 0.9);
+        rgba(255, 255, 255, 0.92);
     }
 
     .guide-content {
       margin-top: 16px;
+    }
+
+    .guide-lang {
+      display: flex;
+      width: fit-content;
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: #eef2ff;
+      border: 1px solid #dbeafe;
+    }
+
+    .lang-button {
+      min-height: 32px;
+      width: auto;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--blue2);
+      border: 0;
+      box-shadow: none;
+      font-size: 13px;
+    }
+
+    .lang-button:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .lang-button.active {
+      background: #fff;
+      color: var(--blue2);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
     }
 
     .guide-hero {
@@ -781,19 +781,6 @@
       line-height: 1.4;
     }
 
-    .guide-badge {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 44px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #3b82f6, var(--blue));
-      color: #fff;
-      font-weight: 950;
-      box-shadow: var(--shadow-blue);
-    }
-
     .guide-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -816,8 +803,8 @@
       display: grid;
       place-items: center;
       border-radius: 12px;
-      background: var(--blue-soft);
-      color: var(--blue-2);
+      background: var(--blueSoft);
+      color: var(--blue2);
       font-weight: 950;
       margin-bottom: 10px;
     }
@@ -903,7 +890,7 @@
     .guide-notes > div {
       padding: 14px;
       border-radius: 16px;
-      background: var(--blue-soft);
+      background: var(--blueSoft);
       border: 1px solid #bfdbfe;
     }
 
@@ -922,7 +909,7 @@
     .country-group {
       background: #fff;
       border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       padding: 0;
       box-shadow: none;
       margin-top: 10px;
@@ -947,7 +934,7 @@
 
     .month {
       border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: var(--radius-md);
+      border-radius: var(--radiusMd);
       overflow: hidden;
       background: #fff;
     }
@@ -978,17 +965,36 @@
       display: inline-flex;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.72);
       border: 1px solid rgba(148, 163, 184, 0.24);
     }
 
-    @media (min-width: 720px) {
-      .topbar {
-        grid-template-columns: auto 1fr auto;
-      }
+    .to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 50;
+      width: 48px;
+      height: 48px;
+      min-height: 48px;
+      padding: 0;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity var(--transition), transform var(--transition);
+    }
 
-      .nav {
-        justify-content: center;
+    .to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 720px) {
+      .hero-inner {
+        grid-template-columns: 1fr auto;
+        align-items: start;
       }
 
       .grid-main {
@@ -1005,10 +1011,6 @@
 
       .warning-buttons {
         grid-template-columns: 1fr 1fr;
-      }
-
-      .guide-hero {
-        grid-template-columns: 1fr auto;
       }
 
       .guide-grid {
@@ -1040,6 +1042,10 @@
     }
 
     @media (max-width: 420px) {
+      .hero {
+        padding: 22px 10px 40px;
+      }
+
       main {
         padding-left: 8px;
         padding-right: 8px;
@@ -1067,32 +1073,23 @@
       h1 {
         font-size: 32px;
       }
+
+      table {
+        min-width: 640px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <header class="top">
-    <div class="wrap">
-      <div class="topbar">
-        <a class="brand" href="#top">FSD / FCR</a>
-
-        <nav class="nav" aria-label="Main navigation">
-          <a href="#calculator" data-i18n="navCalculator">Calculator</a>
-          <a href="#acceleration" data-i18n="navAcceleration">Delivery acceleration</a>
-          <a href="#countries" data-i18n="navCountries">Countries & days</a>
-          <a href="#outputCalendar" data-i18n="navCalendar">Output calendar</a>
-          <a href="#guide" data-i18n="navGuide">Guide</a>
-        </nav>
-
-        <div class="lang-switch" aria-label="Language switch">
-          <button type="button" class="lang-button active" data-lang="en">EN</button>
-          <button type="button" class="lang-button" data-lang="ru">RU</button>
-        </div>
+  <header id="top" class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <h1 data-i18n="heroTitle">Калькулятор FSD / FCR</h1>
+        <p data-i18n="heroText">Расчёт FCR, FSD и вариантов ускорения доставки в одном месте.</p>
       </div>
 
-      <h1 data-i18n="heroTitle">FSD / FCR Calculator</h1>
-      <p data-i18n="heroText">Calculate FCR, FSD and delivery acceleration options in one place.</p>
+      <a class="guide-link" href="#guide" data-i18n="guideTitle">Справочник</a>
     </div>
   </header>
 
@@ -1102,16 +1099,16 @@
       <section id="calculator" class="grid-main">
         <div class="card main-card">
           <h2>FSD → FCR</h2>
-          <p class="hint" data-i18n="fsdHint">Enter FSD manually or choose a Thursday in the calendar. Format: 1510 or 15.10.</p>
+          <p class="hint" data-i18n="fsdHint">Введите FSD вручную или выберите четверг в календаре.</p>
 
           <div class="date-row">
             <div>
               <label for="fsdText">FSD</label>
-              <input id="fsdText" inputmode="numeric" placeholder="1510" />
+              <input id="fsdText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ" />
             </div>
 
             <div>
-              <label for="fsdYear" data-i18n="year">Year</label>
+              <label for="fsdYear" data-i18n="year">Год</label>
               <select id="fsdYear">
                 <option value="2026">2026</option>
                 <option value="2027">2027</option>
@@ -1120,7 +1117,7 @@
           </div>
 
           <button type="button" id="toggleFsdCalendar" class="calendar-switch">
-            <span class="switch-left" data-i18n="calendar">Calendar</span>
+            <span class="switch-left" data-i18n="calendar">Календарь</span>
             <span class="switch-track">
               <span class="switch-dot"></span>
             </span>
@@ -1137,12 +1134,12 @@
 
           <div class="row">
             <div>
-              <label for="countryFromFsd" data-i18n="country">Country</label>
+              <label for="countryFromFsd" data-i18n="country">Страна</label>
               <select id="countryFromFsd"></select>
             </div>
 
             <div>
-              <label for="laneFromFsd" data-i18n="deliveryMethod">Delivery method</label>
+              <label for="laneFromFsd" data-i18n="deliveryMethod">Способ доставки</label>
               <select id="laneFromFsd"></select>
             </div>
           </div>
@@ -1153,16 +1150,16 @@
 
         <div class="card main-card">
           <h2>FCR → FSD</h2>
-          <p class="hint" data-i18n="fcrHint">Enter FCR as day and month. FSD is moved to the nearest Thursday forward.</p>
+          <p class="hint" data-i18n="fcrHint">Введите FCR как день и месяц. FSD автоматически переносится на ближайший четверг вперёд.</p>
 
           <div class="date-row">
             <div>
               <label for="fcrText">FCR</label>
-              <input id="fcrText" inputmode="numeric" placeholder="3008" />
+              <input id="fcrText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ" />
             </div>
 
             <div>
-              <label for="fcrYear" data-i18n="year">Year</label>
+              <label for="fcrYear" data-i18n="year">Год</label>
               <select id="fcrYear">
                 <option value="2026">2026</option>
                 <option value="2027">2027</option>
@@ -1172,12 +1169,12 @@
 
           <div class="row">
             <div>
-              <label for="countryFromFcr" data-i18n="country">Country</label>
+              <label for="countryFromFcr" data-i18n="country">Страна</label>
               <select id="countryFromFcr"></select>
             </div>
 
             <div>
-              <label for="laneFromFcr" data-i18n="deliveryMethod">Delivery method</label>
+              <label for="laneFromFcr" data-i18n="deliveryMethod">Способ доставки</label>
               <select id="laneFromFcr"></select>
             </div>
           </div>
@@ -1187,30 +1184,30 @@
       </section>
 
       <section class="card counter-card">
-        <h2 data-i18n="daysToFcrTitle">Days to FCR from today</h2>
+        <h2 data-i18n="daysToFcrTitle">Дней до FCR от сегодня</h2>
 
         <div class="counter-grid">
           <div class="counter-result">
             <div id="daysToFcrMain" class="counter-main">—</div>
-            <div id="daysToFcrSub" class="counter-sub" data-i18n="fcrNotSelected">FCR is not selected</div>
+            <div id="daysToFcrSub" class="counter-sub" data-i18n="fcrNotSelected">FCR не выбран</div>
           </div>
 
           <div>
-            <label for="counterSource" data-i18n="fcrSource">FCR source</label>
+            <label for="counterSource" data-i18n="fcrSource">Источник FCR</label>
             <select id="counterSource">
-              <option value="fromFsd" data-i18n="sourceFsd">From FSD → FCR</option>
-              <option value="fromFcr" data-i18n="sourceFcr">From FCR → FSD</option>
-              <option value="manual" data-i18n="sourceManual">Manual input</option>
+              <option value="fromFsd" data-i18n="sourceFsd">От FSD → FCR</option>
+              <option value="fromFcr" data-i18n="sourceFcr">От FCR → FSD</option>
+              <option value="manual" data-i18n="sourceManual">Ручной ввод</option>
             </select>
           </div>
 
           <div>
             <label for="manualFcr">FCR</label>
-            <input id="manualFcr" inputmode="numeric" placeholder="3008" disabled />
+            <input id="manualFcr" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ" disabled />
           </div>
 
           <div>
-            <label for="manualYear" data-i18n="year">Year</label>
+            <label for="manualYear" data-i18n="year">Год</label>
             <select id="manualYear" disabled>
               <option value="2026">2026</option>
               <option value="2027">2027</option>
@@ -1220,17 +1217,17 @@
       </section>
 
       <section id="acceleration" class="card">
-        <h2 data-i18n="accelerationTitle">Delivery acceleration</h2>
-        <p class="hint" data-i18n="accelerationHint">Enter FCR and country. The table shows FSD in this order: Original FSD, Sea-Truck, Sea-Air, Air.</p>
+        <h2 data-i18n="accelerationTitle">Ускорение доставки</h2>
+        <p class="hint" data-i18n="accelerationHint">Введите FCR и страну. Таблица покажет FSD в порядке: Original FSD, Sea-Truck, Sea-Air, Air.</p>
 
         <div class="date-row">
           <div>
             <label for="accelFcrText">FCR</label>
-            <input id="accelFcrText" inputmode="numeric" placeholder="3008" />
+            <input id="accelFcrText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ" />
           </div>
 
           <div>
-            <label for="accelYear" data-i18n="year">Year</label>
+            <label for="accelYear" data-i18n="year">Год</label>
             <select id="accelYear">
               <option value="2026">2026</option>
               <option value="2027">2027</option>
@@ -1240,13 +1237,13 @@
 
         <div class="row">
           <div>
-            <label for="accelCountry" data-i18n="country">Country</label>
+            <label for="accelCountry" data-i18n="country">Страна</label>
             <select id="accelCountry"></select>
           </div>
 
           <div>
             <label>&nbsp;</label>
-            <button type="button" id="calcAcceleration" data-i18n="calculateOptions">Calculate options</button>
+            <button type="button" id="calcAcceleration" data-i18n="calculateOptions">Посчитать варианты</button>
           </div>
         </div>
 
@@ -1254,38 +1251,38 @@
       </section>
 
       <details id="countries">
-        <summary data-i18n="countriesTitle">Countries and delivery days</summary>
+        <summary data-i18n="countriesTitle">Страны и количество дней доставки</summary>
 
         <div class="details-content">
-          <p class="hint" data-i18n="countriesHint">Data is grouped by country. Changes are saved only in the user's browser.</p>
+          <p class="hint" data-i18n="countriesHint">Данные сгруппированы по странам. Изменения сохраняются только в браузере пользователя.</p>
 
           <div class="row">
             <div>
-              <label for="newCountry" data-i18n="country">Country</label>
-              <input id="newCountry" data-i18n-placeholder="countryPlaceholder" placeholder="for example: Bangladesh" />
+              <label for="newCountry" data-i18n="country">Страна</label>
+              <input id="newCountry" data-i18n-placeholder="countryPlaceholder" placeholder="например: Bangladesh" />
             </div>
 
             <div>
-              <label for="newPoint" data-i18n="shippingPoint">Shipping point</label>
-              <input id="newPoint" data-i18n-placeholder="pointPlaceholder" placeholder="for example: Shanghai" />
+              <label for="newPoint" data-i18n="shippingPoint">Точка отправки</label>
+              <input id="newPoint" data-i18n-placeholder="pointPlaceholder" placeholder="например: Shanghai" />
             </div>
           </div>
 
           <div class="row">
             <div>
-              <label for="newMethod" data-i18n="deliveryMethod">Delivery method</label>
-              <input id="newMethod" data-i18n-placeholder="methodPlaceholder" placeholder="for example: Sea-Truck" />
+              <label for="newMethod" data-i18n="deliveryMethod">Способ доставки</label>
+              <input id="newMethod" data-i18n-placeholder="methodPlaceholder" placeholder="например: Sea-Truck" />
             </div>
 
             <div>
-              <label for="newDays" data-i18n="deliveryDays">Delivery days</label>
+              <label for="newDays" data-i18n="deliveryDays">Дней доставки</label>
               <input id="newDays" type="number" min="0" inputmode="numeric" placeholder="45" />
             </div>
           </div>
 
           <div class="row">
-            <button type="button" id="saveLane" data-i18n="addUpdate">Add / update</button>
-            <button type="button" id="resetLanes" class="secondary" data-i18n="resetDefaults">Reset defaults</button>
+            <button type="button" id="saveLane" data-i18n="addUpdate">Добавить / обновить</button>
+            <button type="button" id="resetLanes" class="secondary" data-i18n="resetDefaults">Вернуть стандартные</button>
           </div>
 
           <div id="laneGroups"></div>
@@ -1293,13 +1290,13 @@
       </details>
 
       <details id="outputCalendar">
-        <summary data-i18n="outputCalendarTitle">Output calendar 2026/2027</summary>
+        <summary data-i18n="outputCalendarTitle">Календарь выводов 2026/2027</summary>
 
         <div class="details-content">
-          <p class="hint" data-i18n="calendarHint">The last Thursday of a month belongs to the next FSD month. Example: 29.01.2026 is displayed in February.</p>
+          <p class="hint" data-i18n="calendarHint">Последний четверг месяца относится к следующему FSD-месяцу. Например, 29.01.2026 отображается в феврале.</p>
 
           <div>
-            <label for="calendarYear" data-i18n="year">Year</label>
+            <label for="calendarYear" data-i18n="year">Год</label>
             <select id="calendarYear">
               <option value="2026">2026</option>
               <option value="2027">2027</option>
@@ -1311,50 +1308,54 @@
       </details>
 
       <details id="guide" class="guide" open>
-        <summary data-i18n="guideTitle">Quick guide</summary>
+        <summary data-i18n="guideTitle">Справочник</summary>
 
         <div class="guide-content">
+          <div class="guide-lang" aria-label="Language switch">
+            <button type="button" class="lang-button active" data-lang="ru">RU</button>
+            <button type="button" class="lang-button" data-lang="en">EN</button>
+          </div>
+
           <div class="guide-hero">
             <div>
-              <h3 data-i18n="guideHeroTitle">Fast scenario</h3>
-              <p data-i18n="guideHeroText">Use this guide to quickly understand which block to choose and what to enter.</p>
+              <h3 data-i18n="guideHeroTitle">Быстрый сценарий</h3>
+              <p data-i18n="guideHeroText">Используйте этот справочник, чтобы быстро понять, какой блок выбрать и что вводить.</p>
             </div>
-            <div class="guide-badge">FSD / FCR</div>
           </div>
 
           <div class="guide-grid">
             <div class="guide-card">
               <div class="guide-step">1</div>
-              <h4 data-i18n="guideFsdTitle">You have FSD</h4>
-              <p data-i18n="guideFsdText">Use the FSD → FCR block.</p>
+              <h4 data-i18n="guideFsdTitle">Есть FSD</h4>
+              <p data-i18n="guideFsdText">Используйте блок FSD → FCR.</p>
               <ul>
-                <li data-i18n="guideFsdLi1">Enter FSD: 1510 or 15.10</li>
-                <li data-i18n="guideFsdLi2">Choose year</li>
-                <li data-i18n="guideFsdLi3">Choose country and delivery method</li>
-                <li data-i18n="guideFsdLi4">Get FCR date</li>
+                <li data-i18n="guideFsdLi1">Введите FSD: 1510 или 15.10</li>
+                <li data-i18n="guideFsdLi2">Выберите год</li>
+                <li data-i18n="guideFsdLi3">Выберите страну и способ доставки</li>
+                <li data-i18n="guideFsdLi4">Получите дату FCR</li>
               </ul>
             </div>
 
             <div class="guide-card">
               <div class="guide-step">2</div>
-              <h4 data-i18n="guideFcrTitle">You have FCR</h4>
-              <p data-i18n="guideFcrText">Use the FCR → FSD block.</p>
+              <h4 data-i18n="guideFcrTitle">Есть FCR</h4>
+              <p data-i18n="guideFcrText">Используйте блок FCR → FSD.</p>
               <ul>
-                <li data-i18n="guideFcrLi1">Enter FCR: 3008 or 30.08</li>
-                <li data-i18n="guideFcrLi2">Choose year</li>
-                <li data-i18n="guideFcrLi3">Choose country and delivery method</li>
-                <li data-i18n="guideFcrLi4">FSD moves to the nearest Thursday forward</li>
+                <li data-i18n="guideFcrLi1">Введите FCR: 3008 или 30.08</li>
+                <li data-i18n="guideFcrLi2">Выберите год</li>
+                <li data-i18n="guideFcrLi3">Выберите страну и способ доставки</li>
+                <li data-i18n="guideFcrLi4">FSD переносится на ближайший четверг вперёд</li>
               </ul>
             </div>
 
             <div class="guide-card">
               <div class="guide-step">3</div>
-              <h4 data-i18n="guideAccelTitle">You need acceleration</h4>
-              <p data-i18n="guideAccelText">Use the Delivery acceleration block.</p>
+              <h4 data-i18n="guideAccelTitle">Нужно ускорение</h4>
+              <p data-i18n="guideAccelText">Используйте блок Ускорение доставки.</p>
               <ul>
-                <li data-i18n="guideAccelLi1">Enter FCR</li>
-                <li data-i18n="guideAccelLi2">Choose country</li>
-                <li data-i18n="guideAccelLi3">The site shows FSD by Original, Sea-Truck, Sea-Air and Air</li>
+                <li data-i18n="guideAccelLi1">Введите FCR</li>
+                <li data-i18n="guideAccelLi2">Выберите страну</li>
+                <li data-i18n="guideAccelLi3">Сайт покажет FSD по Original, Sea-Truck, Sea-Air и Air</li>
               </ul>
             </div>
           </div>
@@ -1362,38 +1363,38 @@
           <div class="guide-flow">
             <div class="flow-item">
               <span>FSD</span>
-              <small data-i18n="flowFsd">date when product arrives in stores</small>
+              <small data-i18n="flowFsd">дата поступления продукта в магазины</small>
             </div>
 
             <div class="flow-arrow">→</div>
 
             <div class="flow-item">
               <span>FCR</span>
-              <small data-i18n="flowFcr">shipping date</small>
+              <small data-i18n="flowFcr">дата отгрузки</small>
             </div>
 
             <div class="flow-arrow">→</div>
 
             <div class="flow-item">
-              <span data-i18n="flowCounterTitle">Days to FCR</span>
-              <small data-i18n="flowCounterText">counter from today</small>
+              <span data-i18n="flowCounterTitle">Дней до FCR</span>
+              <small data-i18n="flowCounterText">счётчик от сегодня</small>
             </div>
           </div>
 
           <div class="guide-notes">
             <div>
-              <h4 data-i18n="rulesTitle">Date rules</h4>
-              <p data-i18n="rulesText">FSD is always Thursday. If another date is entered, the site offers the nearest Thursday backward and forward.</p>
+              <h4 data-i18n="rulesTitle">Правила дат</h4>
+              <p data-i18n="rulesText">FSD всегда четверг. Если введена другая дата, сайт предложит ближайший четверг назад и вперёд.</p>
             </div>
 
             <div>
-              <h4 data-i18n="formatsTitle">Input formats</h4>
-              <p data-i18n="formatsText">You can enter 1510, 15.10, 15102026 or 15.10.2026.</p>
+              <h4 data-i18n="formatsTitle">Форматы ввода</h4>
+              <p data-i18n="formatsText">Можно вводить 1510, 15.10, 15102026 или 15.10.2026.</p>
             </div>
 
             <div>
-              <h4 data-i18n="dataTitle">Country data</h4>
-              <p data-i18n="dataText">Settings are saved only in the browser. To change data for everyone, update the code on GitHub.</p>
+              <h4 data-i18n="dataTitle">Данные стран</h4>
+              <p data-i18n="dataText">Настройки сохраняются только в браузере. Чтобы изменить данные для всех, обновите код на GitHub.</p>
             </div>
           </div>
         </div>
@@ -1406,134 +1407,24 @@
     <span>Made by Alekasandr Volkov. Powered by GPT 5.5</span>
   </footer>
 
+  <button type="button" id="toTop" class="to-top" aria-label="Back to top">↑</button>
+
   <script>
     (function () {
       "use strict";
 
       const I18N = {
-        en: {
-          months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-          weekdays: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
-          calendarHeads: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
-          text: {
-            navCalculator: "Calculator",
-            navAcceleration: "Delivery acceleration",
-            navCountries: "Countries & days",
-            navCalendar: "Output calendar",
-            navGuide: "Guide",
-
-            heroTitle: "FSD / FCR Calculator",
-            heroText: "Calculate FCR, FSD and delivery acceleration options in one place.",
-
-            fsdHint: "Enter FSD manually or choose a Thursday in the calendar. Format: 1510 or 15.10.",
-            fcrHint: "Enter FCR as day and month. FSD is moved to the nearest Thursday forward.",
-            year: "Year",
-            calendar: "Calendar",
-            country: "Country",
-            deliveryMethod: "Delivery method",
-
-            daysToFcrTitle: "Days to FCR from today",
-            fcrNotSelected: "FCR is not selected",
-            fcrSource: "FCR source",
-            sourceFsd: "From FSD → FCR",
-            sourceFcr: "From FCR → FSD",
-            sourceManual: "Manual input",
-
-            accelerationTitle: "Delivery acceleration",
-            accelerationHint: "Enter FCR and country. The table shows FSD in this order: Original FSD, Sea-Truck, Sea-Air, Air.",
-            calculateOptions: "Calculate options",
-
-            countriesTitle: "Countries and delivery days",
-            countriesHint: "Data is grouped by country. Changes are saved only in the user's browser.",
-            shippingPoint: "Shipping point",
-            deliveryDays: "Delivery days",
-            countryPlaceholder: "for example: Bangladesh",
-            pointPlaceholder: "for example: Shanghai",
-            methodPlaceholder: "for example: Sea-Truck",
-            addUpdate: "Add / update",
-            resetDefaults: "Reset defaults",
-
-            outputCalendarTitle: "Output calendar 2026/2027",
-            calendarHint: "The last Thursday of a month belongs to the next FSD month. Example: 29.01.2026 is displayed in February.",
-
-            guideTitle: "Quick guide",
-            guideHeroTitle: "Fast scenario",
-            guideHeroText: "Use this guide to quickly understand which block to choose and what to enter.",
-            guideFsdTitle: "You have FSD",
-            guideFsdText: "Use the FSD → FCR block.",
-            guideFsdLi1: "Enter FSD: 1510 or 15.10",
-            guideFsdLi2: "Choose year",
-            guideFsdLi3: "Choose country and delivery method",
-            guideFsdLi4: "Get FCR date",
-            guideFcrTitle: "You have FCR",
-            guideFcrText: "Use the FCR → FSD block.",
-            guideFcrLi1: "Enter FCR: 3008 or 30.08",
-            guideFcrLi2: "Choose year",
-            guideFcrLi3: "Choose country and delivery method",
-            guideFcrLi4: "FSD moves to the nearest Thursday forward",
-            guideAccelTitle: "You need acceleration",
-            guideAccelText: "Use the Delivery acceleration block.",
-            guideAccelLi1: "Enter FCR",
-            guideAccelLi2: "Choose country",
-            guideAccelLi3: "The site shows FSD by Original, Sea-Truck, Sea-Air and Air",
-            flowFsd: "date when product arrives in stores",
-            flowFcr: "shipping date",
-            flowCounterTitle: "Days to FCR",
-            flowCounterText: "counter from today",
-            rulesTitle: "Date rules",
-            rulesText: "FSD is always Thursday. If another date is entered, the site offers the nearest Thursday backward and forward.",
-            formatsTitle: "Input formats",
-            formatsText: "You can enter 1510, 15.10, 15102026 or 15.10.2026.",
-            dataTitle: "Country data",
-            dataText: "Settings are saved only in the browser. To change data for everyone, update the code on GitHub.",
-
-            fcrLabel: "FCR",
-            fsdLabel: "FSD",
-            dateError: "Enter date in DD.MM or DDMM format",
-            numberDateError: "Date must contain only numbers",
-            invalidDateError: "This date does not exist",
-            noLaneError: "Delivery days are not set for the selected country and method",
-            noCountryData: "No data for selected country",
-            fsdNotThursday: "FSD is not Thursday",
-            choosePrevThursday: "Choose Thursday backward",
-            chooseNextThursday: "Choose Thursday forward",
-            alreadyThursday: "The date is already Thursday, no move needed.",
-            rawDate: "Preliminary date",
-            moveForward: "move forward",
-            deliveryDaysText: "delivery days",
-            daysShort: "days",
-            sourceFromFsd: "from FSD → FCR",
-            sourceFromFcr: "from FCR → FSD",
-            sourceManualText: "manual input",
-            countryRows: "rows",
-            point: "Point",
-            method: "Method",
-            days: "Days",
-            action: "Action",
-            delete: "Delete",
-            originalFsd: "Original FSD",
-            seaTruck: "Sea-Truck",
-            seaAir: "Sea-Air",
-            air: "Air"
-          }
-        },
-
         ru: {
           months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
           weekdays: ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
           calendarHeads: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
           text: {
-            navCalculator: "Калькулятор",
-            navAcceleration: "Ускорение доставки",
-            navCountries: "Страны и дни",
-            navCalendar: "Календарь выводов",
-            navGuide: "Справочник",
-
             heroTitle: "Калькулятор FSD / FCR",
             heroText: "Расчёт FCR, FSD и вариантов ускорения доставки в одном месте.",
 
-            fsdHint: "Введите FSD вручную или выберите четверг в календаре. Формат: 1510 или 15.10.",
+            fsdHint: "Введите FSD вручную или выберите четверг в календаре.",
             fcrHint: "Введите FCR как день и месяц. FSD автоматически переносится на ближайший четверг вперёд.",
+            datePlaceholder: "Введите дату в формате ДД.ММ или ДДММ",
             year: "Год",
             calendar: "Календарь",
             country: "Страна",
@@ -1596,6 +1487,7 @@
 
             fcrLabel: "FCR",
             fsdLabel: "FSD",
+            errorTitle: "Ошибка",
             dateError: "Введите дату в формате ДД.ММ или ДДММ",
             numberDateError: "Дата должна содержать только числа",
             invalidDateError: "Такой даты не существует",
@@ -1607,7 +1499,6 @@
             alreadyThursday: "Дата уже четверг, перенос не нужен.",
             rawDate: "Предварительная дата",
             moveForward: "перенос вперёд",
-            deliveryDaysText: "дней доставки",
             daysShort: "дн.",
             sourceFromFsd: "от FSD → FCR",
             sourceFromFcr: "от FCR → FSD",
@@ -1623,14 +1514,116 @@
             seaAir: "Sea-Air",
             air: "Air"
           }
+        },
+
+        en: {
+          months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          weekdays: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+          calendarHeads: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+          text: {
+            heroTitle: "FSD / FCR Calculator",
+            heroText: "Calculate FCR, FSD and delivery acceleration options in one place.",
+
+            fsdHint: "Enter FSD manually or choose a Thursday in the calendar.",
+            fcrHint: "Enter FCR as day and month. FSD is moved to the nearest Thursday forward.",
+            datePlaceholder: "Enter date in DD.MM or DDMM format",
+            year: "Year",
+            calendar: "Calendar",
+            country: "Country",
+            deliveryMethod: "Delivery method",
+
+            daysToFcrTitle: "Days to FCR from today",
+            fcrNotSelected: "FCR is not selected",
+            fcrSource: "FCR source",
+            sourceFsd: "From FSD → FCR",
+            sourceFcr: "From FCR → FSD",
+            sourceManual: "Manual input",
+
+            accelerationTitle: "Delivery acceleration",
+            accelerationHint: "Enter FCR and country. The table shows FSD in this order: Original FSD, Sea-Truck, Sea-Air, Air.",
+            calculateOptions: "Calculate options",
+
+            countriesTitle: "Countries and delivery days",
+            countriesHint: "Data is grouped by country. Changes are saved only in the user's browser.",
+            shippingPoint: "Shipping point",
+            deliveryDays: "Delivery days",
+            countryPlaceholder: "for example: Bangladesh",
+            pointPlaceholder: "for example: Shanghai",
+            methodPlaceholder: "for example: Sea-Truck",
+            addUpdate: "Add / update",
+            resetDefaults: "Reset defaults",
+
+            outputCalendarTitle: "Output calendar 2026/2027",
+            calendarHint: "The last Thursday of a month belongs to the next FSD month. Example: 29.01.2026 is displayed in February.",
+
+            guideTitle: "Guide",
+            guideHeroTitle: "Fast scenario",
+            guideHeroText: "Use this guide to quickly understand which block to choose and what to enter.",
+            guideFsdTitle: "You have FSD",
+            guideFsdText: "Use the FSD → FCR block.",
+            guideFsdLi1: "Enter FSD: 1510 or 15.10",
+            guideFsdLi2: "Choose year",
+            guideFsdLi3: "Choose country and delivery method",
+            guideFsdLi4: "Get FCR date",
+            guideFcrTitle: "You have FCR",
+            guideFcrText: "Use the FCR → FSD block.",
+            guideFcrLi1: "Enter FCR: 3008 or 30.08",
+            guideFcrLi2: "Choose year",
+            guideFcrLi3: "Choose country and delivery method",
+            guideFcrLi4: "FSD moves to the nearest Thursday forward",
+            guideAccelTitle: "You need acceleration",
+            guideAccelText: "Use the Delivery acceleration block.",
+            guideAccelLi1: "Enter FCR",
+            guideAccelLi2: "Choose country",
+            guideAccelLi3: "The site shows FSD by Original, Sea-Truck, Sea-Air and Air",
+            flowFsd: "date when product arrives in stores",
+            flowFcr: "shipping date",
+            flowCounterTitle: "Days to FCR",
+            flowCounterText: "counter from today",
+            rulesTitle: "Date rules",
+            rulesText: "FSD is always Thursday. If another date is entered, the site offers the nearest Thursday backward and forward.",
+            formatsTitle: "Input formats",
+            formatsText: "You can enter 1510, 15.10, 15102026 or 15.10.2026.",
+            dataTitle: "Country data",
+            dataText: "Settings are saved only in the browser. To change data for everyone, update the code on GitHub.",
+
+            fcrLabel: "FCR",
+            fsdLabel: "FSD",
+            errorTitle: "Error",
+            dateError: "Enter date in DD.MM or DDMM format",
+            numberDateError: "Date must contain only numbers",
+            invalidDateError: "This date does not exist",
+            noLaneError: "Delivery days are not set for the selected country and method",
+            noCountryData: "No data for selected country",
+            fsdNotThursday: "FSD is not Thursday",
+            choosePrevThursday: "Choose Thursday backward",
+            chooseNextThursday: "Choose Thursday forward",
+            alreadyThursday: "The date is already Thursday, no move needed.",
+            rawDate: "Preliminary date",
+            moveForward: "move forward",
+            daysShort: "days",
+            sourceFromFsd: "from FSD → FCR",
+            sourceFromFcr: "from FCR → FSD",
+            sourceManualText: "manual input",
+            countryRows: "rows",
+            point: "Point",
+            method: "Method",
+            days: "Days",
+            action: "Action",
+            delete: "Delete",
+            originalFsd: "Original FSD",
+            seaTruck: "Sea-Truck",
+            seaAir: "Sea-Air",
+            air: "Air"
+          }
         }
       };
 
       const COUNTRY_LABELS = {
-        China: { en: "China", ru: "Китай" },
-        Vietnam: { en: "Vietnam", ru: "Вьетнам" },
-        India: { en: "India", ru: "Индия" },
-        Bangladesh: { en: "Bangladesh", ru: "Bangladesh" }
+        China: { ru: "Китай", en: "China" },
+        Vietnam: { ru: "Вьетнам", en: "Vietnam" },
+        India: { ru: "Индия", en: "India" },
+        Bangladesh: { ru: "Bangladesh", en: "Bangladesh" }
       };
 
       const DEFAULT_LANES = [
@@ -1669,10 +1662,10 @@
         "Air": 5
       };
 
-      const STORE_KEY = "fsdFcrLanes_v15";
+      const STORE_KEY = "fsdFcrLanes_v16";
       const $ = id => document.getElementById(id);
 
-      let currentLang = "en";
+      let currentLang = "ru";
       let lanes = loadLanes();
       let lastFcrFromFsd = null;
       let lastFcrFromFcrBlock = null;
@@ -1849,9 +1842,24 @@
           });
       }
 
+      function getUniqueMethodLanesByCountry(country) {
+        const map = new Map();
+
+        getLanesByCountry(country).forEach(lane => {
+          const key = `${lane.method}|${lane.days}`;
+
+          if (!map.has(key)) {
+            map.set(key, lane);
+          }
+        });
+
+        return Array.from(map.values()).sort((a, b) => {
+          return (METHOD_ORDER[a.method] || 99) - (METHOD_ORDER[b.method] || 99);
+        });
+      }
+
       function laneLabel(lane) {
-        const point = lane.point ? ` / ${lane.point}` : "";
-        return `${lane.method}${point} — ${lane.days} ${t("daysShort")}`;
+        return `${lane.method} — ${lane.days} ${t("daysShort")}`;
       }
 
       function getLaneFromSelect(selectId) {
@@ -1863,6 +1871,17 @@
         }
 
         return lane;
+      }
+
+      function clearInputErrors() {
+        document.querySelectorAll(".is-error").forEach(node => node.classList.remove("is-error"));
+      }
+
+      function markInputError(ids) {
+        ids.forEach(id => {
+          const node = $(id);
+          if (node) node.classList.add("is-error");
+        });
       }
 
       function renderStaticText() {
@@ -1898,7 +1917,7 @@
 
       function renderLaneSelect(countryId, laneId, oldValue) {
         const country = $(countryId).value;
-        const countryLanes = getLanesByCountry(country);
+        const countryLanes = getUniqueMethodLanesByCountry(country);
         const select = $(laneId);
 
         select.innerHTML = countryLanes.map(lane => {
@@ -1971,14 +1990,25 @@
 
       function showResult(id, html) {
         const box = $(id);
+        box.classList.remove("error");
         box.innerHTML = html;
         box.classList.add("show");
+      }
+
+      function showError(id, message, inputIds = []) {
+        const box = $(id);
+        box.innerHTML = `
+          <div class="big">${t("errorTitle")}</div>
+          <div class="small">${escapeHtml(message)}</div>
+        `;
+        box.classList.add("show", "error");
+        markInputError(inputIds);
       }
 
       function clearResult(id) {
         const box = $(id);
         box.innerHTML = "";
-        box.classList.remove("show");
+        box.classList.remove("show", "error");
       }
 
       function clearWarning() {
@@ -2063,6 +2093,7 @@
       }
 
       function calculateFcr() {
+        clearInputErrors();
         clearWarning();
         normalizeDateField("fsdText", "fsdYear");
 
@@ -2116,14 +2147,12 @@
 
           updateCounter();
         } catch (error) {
-          showResult("fcrResult", `
-            <div class="big">Error</div>
-            <div class="small">${escapeHtml(error.message)}</div>
-          `);
+          showError("fcrResult", error.message, ["fsdText"]);
         }
       }
 
       function calculateFsd() {
+        clearInputErrors();
         normalizeDateField("fcrText", "fcrYear");
 
         try {
@@ -2158,10 +2187,7 @@
 
           updateCounter();
         } catch (error) {
-          showResult("fsdResult", `
-            <div class="big">Error</div>
-            <div class="small">${escapeHtml(error.message)}</div>
-          `);
+          showError("fsdResult", error.message, ["fcrText"]);
         }
       }
 
@@ -2190,6 +2216,7 @@
       }
 
       function calculateAcceleration() {
+        clearInputErrors();
         normalizeDateField("accelFcrText", "accelYear");
 
         try {
@@ -2249,10 +2276,7 @@
             </div>
           `);
         } catch (error) {
-          showResult("accelerationResult", `
-            <div class="big">Error</div>
-            <div class="small">${escapeHtml(error.message)}</div>
-          `);
+          showError("accelerationResult", error.message, ["accelFcrText"]);
         }
       }
 
@@ -2288,6 +2312,7 @@
             sourceText = t("sourceManualText");
           } catch (error) {
             date = null;
+            if ($("manualFcr").value.trim()) markInputError(["manualFcr"]);
           }
         }
 
@@ -2438,6 +2463,24 @@
         updateCounter();
       }
 
+      function renderStaticText() {
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll("[data-i18n]").forEach(node => {
+          const key = node.getAttribute("data-i18n");
+          node.textContent = t(key);
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(node => {
+          const key = node.getAttribute("data-i18n-placeholder");
+          node.setAttribute("placeholder", t(key));
+        });
+
+        document.querySelectorAll(".lang-button").forEach(button => {
+          button.classList.toggle("active", button.dataset.lang === currentLang);
+        });
+      }
+
       function bindEvents() {
         document.querySelectorAll(".lang-button").forEach(button => {
           button.addEventListener("click", () => setLanguage(button.dataset.lang));
@@ -2554,6 +2597,14 @@
         $("saveLane").addEventListener("click", addOrUpdateLane);
         $("resetLanes").addEventListener("click", resetLanes);
         $("calendarYear").addEventListener("change", renderThursdayCalendar);
+
+        $("toTop").addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        window.addEventListener("scroll", () => {
+          $("toTop").classList.toggle("show", window.scrollY > 480);
+        }, { passive: true });
 
         document.addEventListener("click", event => {
           const target = event.target;
