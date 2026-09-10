@@ -1185,6 +1185,29 @@
       }
     }
 
+
+    /* Refined accordion typography — 10.09.2026 */
+    summary,
+    .counter-details > summary,
+    .acceleration-details > summary {
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      font-weight: 900;
+    }
+
+    .country-group summary {
+      font-size: 15px;
+    }
+
+    @media (max-width: 520px) {
+      summary,
+      .counter-details > summary,
+      .acceleration-details > summary {
+        font-size: 17px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1610,9 +1633,11 @@
             calculateOptions: "Посчитать варианты",
             outputMonth: "Месяц вывода",
 
-            countriesTitle: "Страны и количество дней доставки",
-            countriesHint: "Данные сгруппированы по странам. Изменения сохраняются только в браузере пользователя.",
+            countriesTitle: "Маршруты, сроки и тарифы",
+            countriesHint: "Данные сгруппированы по странам. Тарифы показаны только в этом закрытом разделе, чтобы не перегружать основной калькулятор.",
             deliveryDays: "Дней доставки",
+            freightBorder: "Фрахт до границы",
+            weightedFreight: "Средневзвешенный",
             countryPlaceholder: "например: Bangladesh",
             pointPlaceholder: "например: Shanghai",
             methodPlaceholder: "например: Sea-Truck",
@@ -1725,9 +1750,11 @@
             calculateOptions: "Calculate options",
             outputMonth: "Output month",
 
-            countriesTitle: "Countries and delivery days",
-            countriesHint: "Data is grouped by country. Changes are saved only in the user's browser.",
+            countriesTitle: "Routes, lead times and tariffs",
+            countriesHint: "Data is grouped by country. Tariffs are shown only in this closed section to keep the main calculator compact.",
             deliveryDays: "Delivery days",
+            freightBorder: "Freight to border",
+            weightedFreight: "Weighted average",
             countryPlaceholder: "for example: Bangladesh",
             pointPlaceholder: "for example: Shanghai",
             methodPlaceholder: "for example: Sea-Truck",
@@ -1802,46 +1829,61 @@
         China: { ru: "Китай", en: "China" },
         Vietnam: { ru: "Вьетнам", en: "Vietnam" },
         India: { ru: "Индия", en: "India" },
-        Bangladesh: { ru: "Bangladesh", en: "Bangladesh" }
+        Bangladesh: { ru: "Бангладеш", en: "Bangladesh" },
+        Pakistan: { ru: "Пакистан", en: "Pakistan" },
+        Uzbekistan: { ru: "Узбекистан", en: "Uzbekistan" },
+        Myanmar: { ru: "Мьянма", en: "Myanmar" },
+        Turkey: { ru: "Турция", en: "Turkey" }
       };
 
       const DEFAULT_LANES = [
-        { id: "china-shanghai-sea-train", country: "China", point: "Shanghai", method: "Sea-Train", days: 50, original: true },
-        { id: "china-shanghai-sea-truck", country: "China", point: "Shanghai", method: "Sea-Truck", days: 44 },
-        { id: "china-shanghai-truck", country: "China", point: "Shanghai", method: "Truck", days: 36 },
-        { id: "china-shanghai-sea-air", country: "China", point: "Shanghai", method: "Sea-Air", days: 36 },
-        { id: "china-shanghai-air", country: "China", point: "Shanghai", method: "Air", days: 18 },
+        { id: "china-shanghai-sea-train", country: "China", point: "Shanghai", method: "Sea-Train", days: 50, freightBorder: 4500, weighted: 10311, original: true },
+        { id: "china-shanghai-sea-truck", country: "China", point: "Shanghai", method: "Sea-Truck", days: 44, freightBorder: 4500, weighted: 11690 },
+        { id: "china-shanghai-truck", country: "China", point: "Shanghai", method: "Truck", days: 36, freightBorder: 11470, weighted: 11788 },
+        { id: "china-shanghai-sea-air", country: "China", point: "Shanghai", method: "Sea-Air", days: 36, freightBorder: 4500, weighted: 27810 },
+        { id: "china-shanghai-air", country: "China", point: "Shanghai", method: "Air", days: 18, freightBorder: 7.003125, weighted: 8.870833333333334 },
 
-        { id: "china-qingdao-sea-train", country: "China", point: "Qingdao", method: "Sea-Train", days: 50, original: true },
-        { id: "china-qingdao-sea-truck", country: "China", point: "Qingdao", method: "Sea-Truck", days: 44 },
-        { id: "china-qingdao-truck", country: "China", point: "Qingdao", method: "Truck", days: 36 },
-        { id: "china-qingdao-sea-air", country: "China", point: "Qingdao", method: "Sea-Air", days: 36 },
-        { id: "china-qingdao-air", country: "China", point: "Qingdao", method: "Air", days: 18 },
+        { id: "china-qingdao-sea-train", country: "China", point: "Qingdao", method: "Sea-Train", days: 50, freightBorder: 4250, weighted: 10046, original: true },
+        { id: "china-qingdao-sea-truck", country: "China", point: "Qingdao", method: "Sea-Truck", days: 44, freightBorder: 4250, weighted: 11424 },
+        { id: "china-qingdao-truck", country: "China", point: "Qingdao", method: "Truck", days: 36, freightBorder: 11944, weighted: 12262 },
+        { id: "china-qingdao-sea-air", country: "China", point: "Qingdao", method: "Sea-Air", days: 36, freightBorder: 4250, weighted: 27545 },
+        { id: "china-qingdao-air", country: "China", point: "Qingdao", method: "Air", days: 18, freightBorder: 8.912013256006627, weighted: 11.293454846727423 },
 
-        { id: "vietnam-haiphong-sea-train", country: "Vietnam", point: "Haiphong", method: "Sea-Train", days: 50, original: true },
-        { id: "vietnam-haiphong-sea-truck", country: "Vietnam", point: "Haiphong", method: "Sea-Truck", days: 44 },
-        { id: "vietnam-haiphong-sea-air", country: "Vietnam", point: "Haiphong", method: "Sea-Air", days: 36 },
-        { id: "vietnam-haiphong-air", country: "Vietnam", point: "Haiphong", method: "Air", days: 17 },
+        { id: "vietnam-haiphong-sea-train", country: "Vietnam", point: "Haiphong", method: "Sea-Train", days: 50, freightBorder: 2900, weighted: 9222, original: true },
+        { id: "vietnam-haiphong-sea-truck", country: "Vietnam", point: "Haiphong", method: "Sea-Truck", days: 44, freightBorder: 2500, weighted: 10199 },
+        { id: "vietnam-haiphong-sea-air", country: "Vietnam", point: "Haiphong", method: "Sea-Air", days: 36, freightBorder: 2500, weighted: 26319 },
+        { id: "vietnam-hochiminh-air", country: "Vietnam", point: "HoChiMinh", method: "Air", days: 17, freightBorder: 3.575766395032984, weighted: 4.360593713620489 },
 
-        { id: "bangladesh-chittagong-sea-truck", country: "Bangladesh", point: "Chittagong", method: "Sea-Truck", days: 65, original: true },
-        { id: "bangladesh-chittagong-sea-air", country: "Bangladesh", point: "Chittagong", method: "Sea-Air", days: 57 },
-        { id: "bangladesh-chittagong-air", country: "Bangladesh", point: "Chittagong", method: "Air", days: 20 },
+        { id: "bangladesh-chittagong-sea-truck", country: "Bangladesh", point: "Chittagong", method: "Sea-Truck", days: 65, freightBorder: 2450, weighted: 9808, original: true },
+        { id: "bangladesh-chittagong-sea-air", country: "Bangladesh", point: "Chittagong", method: "Sea-Air", days: 57, freightBorder: 2450, weighted: 25928 },
+        { id: "bangladesh-chittagong-air", country: "Bangladesh", point: "Chittagong", method: "Air", days: 20, freightBorder: 5.430012401818933, weighted: 6.805208763952046 },
 
-        { id: "india-tutikorin-sea-hub-reel", country: "India", point: "Tutikorin", method: "Sea(Hub/Reel)", days: 79, original: true },
-        { id: "india-tutikorin-sea-truck", country: "India", point: "Tutikorin", method: "Sea-Truck", days: 79 },
-        { id: "india-tutikorin-air", country: "India", point: "Tutikorin", method: "Air", days: 20 }
+        { id: "india-tutikorin-sea-truck", country: "India", point: "Tutikorin", method: "Sea-Truck", days: 79, freightBorder: 3200, weighted: 10383, original: true },
+        { id: "india-tutikorin-air", country: "India", point: "Tutikorin", method: "Air", days: 20, freightBorder: 5.976233613982735, weighted: 7.064265160396462 },
+        { id: "india-mundra-nava-sheva-sea-truck", country: "India", point: "Mundra/Nava Sheva", method: "Sea-Truck", days: 69, freightBorder: 3800, weighted: 10931 },
+        { id: "india-mundra-nava-sheva-air", country: "India", point: "Mundra/Nava Sheva", method: "Air", days: 20, freightBorder: 5.478865083960625, weighted: 6.978343949044586 },
+
+        { id: "pakistan-pakistan-sea-truck", country: "Pakistan", point: "Pakistan", method: "Sea-Truck", days: 65, freightBorder: 3650, weighted: 11280, original: true },
+        { id: "pakistan-pakistan-air", country: "Pakistan", point: "Pakistan", method: "Air", days: 20, freightBorder: 5.330009129854624, weighted: 6.710021771191797 },
+
+        { id: "uzbekistan-uzbekistan-truck", country: "Uzbekistan", point: "Uzbekistan", method: "Truck", days: 20, freightBorder: 3300, weighted: 3515, original: true },
+
+        { id: "myanmar-myanmar-sea-truck", country: "Myanmar", point: "Myanmar", method: "Sea-Truck", days: 65, freightBorder: 3800, weighted: 10934, original: true },
+        { id: "myanmar-myanmar-air", country: "Myanmar", point: "Myanmar", method: "Air", days: 20, freightBorder: 8.954726176734642, weighted: 10.845453379504939 },
+
+        { id: "turkey-turkey-truck", country: "Turkey", point: "Turkey", method: "Truck", days: 20, freightBorder: 10000, weighted: 10303, original: true },
+        { id: "turkey-turkey-air", country: "Turkey", point: "Turkey", method: "Air", days: 18, freightBorder: 2.202576587543112, weighted: 3.7030837898153783 }
       ];
 
       const METHOD_ORDER = {
         "Sea-Train": 1,
-        "Sea(Hub/Reel)": 1,
         "Sea-Truck": 2,
         "Truck": 3,
         "Sea-Air": 4,
         "Air": 5
       };
 
-      const STORE_KEY = "fsdFcrLanes_v21_20260910";
+      const STORE_KEY = "fsdFcrLanes_v22_20260910_rates";
       const $ = id => document.getElementById(id);
 
       let currentLang = "ru";
@@ -2055,7 +2097,18 @@
       }
 
       function laneLabel(lane) {
-        return `${lane.method} — ${lane.days} ${t("daysShort")}`;
+        const points = Array.from(new Set(lanes.filter(x => x.country === lane.country).map(x => x.point || "")));
+        const showPoint = points.length > 1;
+        return showPoint
+          ? `${lane.method} — ${lane.days} ${t("daysShort")} — ${lane.point}`
+          : `${lane.method} — ${lane.days} ${t("daysShort")}`;
+      }
+
+      function formatTariff(value) {
+        if (value === null || value === undefined || value === "") return "—";
+        const num = Number(value);
+        if (!Number.isFinite(num)) return escapeHtml(value);
+        return num >= 100 ? Math.round(num).toLocaleString(currentLang === "ru" ? "ru-RU" : "en-US") : num.toFixed(2);
       }
 
       function getLaneFromSelect(selectId) {
@@ -2133,6 +2186,8 @@
                 <td>${escapeHtml(item.point || "—")}</td>
                 <td><span class="pill">${escapeHtml(item.method)}</span></td>
                 <td>${item.days}</td>
+                <td>${formatTariff(item.freightBorder)}</td>
+                <td>${formatTariff(item.weighted)}</td>
                 <td><button type="button" class="danger delete-lane" data-index="${index}">${t("delete")}</button></td>
               </tr>
             `;
@@ -2149,6 +2204,8 @@
                         <th>${t("point")}</th>
                         <th>${t("method")}</th>
                         <th>${t("days")}</th>
+                        <th>${t("freightBorder")}</th>
+                        <th>${t("weightedFreight")}</th>
                         <th>${t("action")}</th>
                       </tr>
                     </thead>
