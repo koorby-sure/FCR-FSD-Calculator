@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>FSD / FCR Calculator</title>
+
+  <link rel="stylesheet" href="assets/calculator-2dd6d8bbcb.css">
+</head>
+
+<body>
+  <header id="top" class="hero">
+    <div class="wrap hero-top">
+      <div>
+        <h1 data-i18n="heroTitle">Калькулятор FSD / FCR</h1>
+        <p data-i18n="heroText">Расчёт FCR, FSD и вариантов ускорения доставки в одном месте.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button type="button" class="lang-btn active" data-lang="ru">RU</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <a class="guide-link" href="#guide" data-i18n="guideTitle">Справочник</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <nav class="app-tabs" aria-label="App sections">
+        <button type="button" class="app-tab active" data-panel="calcPanel" data-i18n="mainTabLabel">Калькулятор</button>
+        <button type="button" class="app-tab" data-panel="gamePanel" data-i18n="supplierGameTabLabel">Supplier Game</button>
+      </nav>
+
+      <div id="calcPanel" class="app-panel active">
+
+      <section class="grid-main">
+        <div class="card">
+          <h2>FSD → FCR</h2>
+          <p class="hint" data-i18n="fsdHint">Введите FSD вручную или выберите четверг в календаре.</p>
+
+          <div class="date-row">
+            <div>
+              <label for="fsdText">FSD</label>
+              <input id="fsdText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ">
+            </div>
+
+            <div>
+              <label for="fsdYear" data-i18n="year">Год</label>
+              <select id="fsdYear">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" id="toggleFsdCalendar" class="calendar-switch">
+            <span class="switch-left" data-i18n="calendar">Календарь</span>
+            <span class="switch-track"><span class="switch-dot"></span></span>
+          </button>
+
+          <div id="fsdCalendarPanel" class="calendar-panel">
+            <div class="calendar-headline">
+              <button type="button" id="prevFsdMonth" class="secondary">←</button>
+              <div id="fsdCalendarTitle" class="calendar-title">—</div>
+              <button type="button" id="nextFsdMonth" class="secondary">→</button>
+            </div>
+            <div id="fsdCalendarGrid"></div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="countryFromFsd" data-i18n="country">Страна</label>
+              <select id="countryFromFsd"></select>
+            </div>
+
+            <div>
+              <label for="laneFromFsd" data-i18n="deliveryMethod">Способ доставки</label>
+              <select id="laneFromFsd"></select>
+            </div>
+          </div>
+
+          <div id="fsdWarning" class="warning"></div>
+          <div id="fcrResult" class="result"></div>
+        </div>
+
+        <div class="card">
+          <h2>FCR → FSD</h2>
+          <p class="hint" data-i18n="fcrHint">Введите FCR как день и месяц. FSD автоматически переносится на ближайший четверг вперёд.</p>
+
+          <div class="date-row">
+            <div>
+              <label for="fcrText">FCR</label>
+              <input id="fcrText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ">
+            </div>
+
+            <div>
+              <label for="fcrYear" data-i18n="year">Год</label>
+              <select id="fcrYear">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="countryFromFcr" data-i18n="country">Страна</label>
+              <select id="countryFromFcr"></select>
+            </div>
+
+            <div>
+              <label for="laneFromFcr" data-i18n="deliveryMethod">Способ доставки</label>
+              <select id="laneFromFcr"></select>
+            </div>
+          </div>
+
+          <div id="fsdResult" class="result"></div>
+        </div>
+      </section>
+
+      <section class="card days-card" id="daysCalculator">
+        <div class="days-head">
+          <div>
+            <h2 data-i18n="daysCalcTitle">Калькулятор дней</h2>
+            <p class="hint days-hint" data-i18n="daysCalcHint">Посчитать дни между датами или прибавить / вычесть дни.</p>
+          </div>
+          <div class="days-mode" role="group" aria-label="Days calculator mode">
+            <button type="button" class="days-mode-btn active" data-days-mode="between" data-i18n="daysModeBetween">Между датами</button>
+            <button type="button" class="days-mode-btn" data-days-mode="add" data-i18n="daysModeAdd">Дата ± дни</button>
+          </div>
+        </div>
+
+        <div class="days-inline">
+          <div class="days-field">
+            <label for="daysDateFrom" data-i18n="daysDateFrom">Дата</label>
+            <input id="daysDateFrom" inputmode="numeric" placeholder="10.09" data-i18n-placeholder="daysDatePlaceholder">
+          </div>
+
+          <div class="days-symbol" id="daysSymbol">→</div>
+
+          <div class="days-field" id="daysSecondDateField">
+            <label for="daysDateTo" data-i18n="daysDateTo">Дата до</label>
+            <input id="daysDateTo" inputmode="numeric" placeholder="30.09" data-i18n-placeholder="daysDatePlaceholder">
+          </div>
+
+          <div class="days-field days-number-field" id="daysNumberField" hidden>
+            <label for="daysNumber" data-i18n="daysNumber">Дней</label>
+            <input id="daysNumber" type="number" inputmode="numeric" value="30" step="1">
+          </div>
+
+          <div class="days-result-box" id="daysCalcResult">
+            <span class="days-result-main">—</span>
+            <span class="days-result-sub" data-i18n="daysCalcWaiting">Введите данные</span>
+          </div>
+        </div>
+      </section>
+
+      <details class="counter-details">
+        <summary data-i18n="daysToFcrTitle">Дней до FCR от сегодня</summary>
+
+        <div class="details-content">
+          <div class="counter-grid">
+            <div class="counter-result">
+              <div id="daysToFcrMain" class="counter-main">—</div>
+              <div id="daysToFcrSub" class="counter-sub" data-i18n="fcrNotSelected">FCR не выбран</div>
+            </div>
+
+            <div>
+              <label for="counterSource" data-i18n="fcrSource">Источник FCR</label>
+              <select id="counterSource">
+                <option value="manual" selected data-i18n="sourceManual">Ручной ввод</option>
+                <option value="fromFsd" data-i18n="sourceFsd">От FSD → FCR</option>
+                <option value="fromFcr" data-i18n="sourceFcr">От FCR → FSD</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="manualFcr">FCR</label>
+              <input id="manualFcr" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ">
+            </div>
+
+            <div>
+              <label for="manualYear" data-i18n="year">Год</label>
+              <select id="manualYear">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="acceleration-details">
+        <summary data-i18n="accelerationTitle">Ускорение доставки</summary>
+        <div class="details-content">
+        <p class="hint" data-i18n="accelerationHint">Введите FCR и страну. Таблица покажет FSD в порядке: Original FSD, Sea-Truck, Sea-Air, Air.</p>
+
+        <div class="date-row">
+          <div>
+            <label for="accelFcrText">FCR</label>
+            <input id="accelFcrText" inputmode="numeric" data-i18n-placeholder="datePlaceholder" placeholder="Введите дату в формате ДД.ММ или ДДММ">
+          </div>
+
+          <div>
+            <label for="accelYear" data-i18n="year">Год</label>
+            <select id="accelYear">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="accelCountry" data-i18n="country">Страна</label>
+            <select id="accelCountry"></select>
+          </div>
+
+          <div>
+            <label>&nbsp;</label>
+            <button type="button" id="calcAcceleration" data-i18n="calculateOptions">Посчитать варианты</button>
+          </div>
+        </div>
+
+        <div id="accelerationResult" class="result"></div>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="countriesTitle">Страны и количество дней доставки</summary>
+
+        <div class="details-content">
+          <p class="hint" data-i18n="countriesHint">Данные сгруппированы по странам. Изменения сохраняются только в браузере пользователя.</p>
+
+          <div class="row">
+            <div>
+              <label for="newCountry" data-i18n="country">Страна</label>
+              <input id="newCountry" data-i18n-placeholder="countryPlaceholder" placeholder="например: Bangladesh">
+            </div>
+
+            <div>
+              <label for="newPoint" data-i18n="pointOfDeparture">Point of departure</label>
+              <input id="newPoint" data-i18n-placeholder="pointPlaceholder" placeholder="например: Shanghai">
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="newMethod" data-i18n="deliveryMethod">Способ доставки</label>
+              <input id="newMethod" data-i18n-placeholder="methodPlaceholder" placeholder="например: Sea-Truck">
+            </div>
+
+            <div>
+              <label for="newDays" data-i18n="deliveryDays">Дней доставки</label>
+              <input id="newDays" type="number" min="0" inputmode="numeric" placeholder="45">
+            </div>
+          </div>
+
+          <div class="settings-actions">
+            <button type="button" id="saveLane" data-i18n="addUpdate">Добавить / обновить</button>
+            <button type="button" id="resetLanes" class="secondary" data-i18n="resetDefaults">Вернуть стандартные</button>
+          </div>
+
+          <div id="laneGroups"></div>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="outputCalendarTitle">Календарь выводов 2026/2027</summary>
+
+        <div class="details-content">
+          <p class="hint" data-i18n="calendarHint">Последний четверг месяца относится к следующему FSD-месяцу. Например, 29.01.2026 отображается в феврале.</p>
+
+          <div>
+            <label for="calendarYear" data-i18n="year">Год</label>
+            <select id="calendarYear">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+
+          <div id="thursdayCalendar" class="month-list"></div>
+        </div>
+      </details>
+
+      <details id="guide" class="guide" open>
+        <summary data-i18n="guideTitle">Справочник</summary>
+
+        <div class="guide-content">
+          <div class="guide-grid">
+            <div class="guide-card">
+              <div class="guide-card-top">
+                <div class="guide-step">FSD</div>
+                <h4 data-i18n="guideFsdTitle">Есть FSD</h4>
+              </div>
+
+              <p data-i18n="guideFsdText">Используйте блок FSD → FCR.</p>
+
+              <ul>
+                <li data-i18n="guideFsdLi1">Введите FSD: 1510 или 15.10</li>
+                <li data-i18n="guideFsdLi2">Выберите год</li>
+                <li data-i18n="guideFsdLi3">Выберите страну и способ доставки</li>
+                <li data-i18n="guideFsdLi4">Получите дату FCR</li>
+              </ul>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-card-top">
+                <div class="guide-step">FCR</div>
+                <h4 data-i18n="guideFcrTitle">Есть FCR</h4>
+              </div>
+
+              <p data-i18n="guideFcrText">Используйте блок FCR → FSD.</p>
+
+              <ul>
+                <li data-i18n="guideFcrLi1">Введите FCR: 3008 или 30.08</li>
+                <li data-i18n="guideFcrLi2">Выберите год</li>
+                <li data-i18n="guideFcrLi3">Выберите страну и способ доставки</li>
+                <li data-i18n="guideFcrLi4">FSD переносится на ближайший четверг вперёд</li>
+              </ul>
+            </div>
+
+            <div class="guide-card">
+              <div class="guide-card-top">
+                <div class="guide-step">AIR</div>
+                <h4 data-i18n="guideAccelTitle">Нужно ускорение</h4>
+              </div>
+
+              <p data-i18n="guideAccelText">Используйте блок Ускорение доставки.</p>
+
+              <ul>
+                <li data-i18n="guideAccelLi1">Введите FCR</li>
+                <li data-i18n="guideAccelLi2">Выберите страну</li>
+                <li data-i18n="guideAccelLi3">Сайт покажет FSD по Original, Sea-Truck, Sea-Air и Air</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-flow">
+            <div class="flow-item">
+              <span>FSD</span>
+              <small data-i18n="flowFsd">дата поступления продукта в магазины</small>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-item">
+              <span>FCR</span>
+              <small data-i18n="flowFcr">дата отгрузки</small>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-item">
+              <span data-i18n="flowCounterTitle">Дней до FCR</span>
+              <small data-i18n="flowCounterText">счётчик от сегодня</small>
+            </div>
+          </div>
+
+          <div class="guide-notes">
+            <div>
+              <h4 data-i18n="rulesTitle">Правила дат</h4>
+              <p data-i18n="rulesText">FSD всегда четверг. Если введена другая дата, сайт предложит ближайший четверг назад и вперёд.</p>
+            </div>
+
+            <div>
+              <h4 data-i18n="formatsTitle">Форматы ввода</h4>
+              <p data-i18n="formatsText">Можно вводить 1510, 15.10, 15102026 или 15.10.2026.</p>
+            </div>
+
+            <div>
+              <h4 data-i18n="dataTitle">Данные стран</h4>
+              <p data-i18n="dataText">Настройки сохраняются только в браузере. Чтобы изменить данные для всех, обновите код на GitHub.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+
+      </div>
+
+      <div id="gamePanel" class="app-panel"><div id="quest-root"></div></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-box">
+      <span><strong>Made by Aleksandr Volkov</strong></span>
+      <small data-i18n="footerVersion">Версия от 10.09.2026</small>
+    </div>
+  </footer>
+
+  <button type="button" id="toTop" class="to-top" aria-label="Back to top">↑</button>
+
+  <script src="assets/calculator-3d892f848e.js"></script>
+
+<template id="quest-template"><link rel="stylesheet" href="assets/game-adbbb62fc3.css">
+<div class="quest" id="qg">
+  <div class="topline" hidden><button type="button" class="brand-link" data-view="world">◈ SUPPLIER QUEST</button><span id="crumb">МИРОВАЯ КАРТА</span></div>
+  <section id="world" class="screen">
+    <header class="hero"><h1>Ателье мира</h1><div class="world-actions"><button type="button" class="quiet guide-button" data-view="help">? Справочник</button><button type="button" class="quiet" data-view="store">Витрина</button><button type="button" class="quiet" data-view="office">Офис Дубая</button></div></header>
+    <div class="map-shell"><div class="map-scroll"><div id="map" class="map"></div></div></div>
+    <div id="map-shipping" class="map-shipping" role="status"></div><div id="countries" class="countries"></div>
+  </section>
+  <section id="help" class="screen" hidden>
+    <button type="button" class="quiet" data-view="world">← Назад к карте</button><header class="hero"><h1>Как играть</h1></header>
+    <div class="guide-journey"><nav id="guide-steps" class="guide-steps" aria-label="Путеводитель"></nav><article id="guide-page" class="guide-page"></article></div><details class="event-guide"><summary>Задания и полезные приёмы</summary>
+    <div class="guide-grid">
+      <article><h2>Горячие клавиши</h2><p><kbd>U</kbd> Улучшить работу с заказом</p><p><kbd>L</kbd> Утвердить образец или выпустить партию</p><small>Только в карточке поставщика. При вводе текста клавиши не работают.</small></article>
+      <article><h2>Доставка</h2><p>Одна секунда игры равна одному дню доставки из калькулятора. Доставленные styles появляются в витрине России.</p></article>
+      <article><h2>Комментарии</h2><p>Нажми на портрет 40–60 раз за 12 секунд. Отдельной кнопки отправки нет.</p></article>
+      <article><h2>Викторина</h2><p>Выбери срок указанного маршрута. Верный ответ приносит опыт и очки, ошибка уменьшает их.</p></article>
+      <article><h2>Саб со Светланой</h2><p>Выбери по одной клетке в трёх секциях. В каждой секции одна скрытая бомба. Это задание на удачу.</p></article>
+      <article><h2>Борд с Анной</h2><p>Заполни силуэт дважды: контур и цвет. На оба прохода 16 секунд. На втором проходе половина клеток уже готова, а таймер получает ещё 3 секунды.</p></article>
+      <article><h2>Образцы с Вероникой</h2><p>Соедини пять пар по цвету и узору. Можно перетаскивать или нажимать. Ошибка отнимает четыре секунды.</p></article>
+      <article><h2>Палитра со Светланой</h2><p>В каждой строке повтори цвет слева, выбрав его справа. Нужно четыре совпадения за 16 секунд.</p></article>
+      <article><h2>Перекур</h2><p>Перекур доступен раз в 60 секунд и даёт 10 секунд автокликов. Каждый пятый перекур снижает доверие текущего поставщика на 10. Повышение уровня добавляет 1 доверие.</p></article><article><h2>Обед</h2><p>20 секунд автоматических переговоров. Автоклики видны на портрете; энергию тратить не нужно.</p></article>
+      <article><h2>Контроль качества</h2><p>Три успешных задания защищают от одного штрафа. После использования защиту нужно заработать снова.</p></article>
+      <article><h2>Серии и заказы</h2><p>Серия успехов даёт бонус к выпуску партии. За каждые 12 доставленных styles можно завершить сезонный заказ. Достижения общие и не выдают очков.</p></article>
+    </div><p class="guide-foot">Задания появляются неожиданно во время переговоров. Таймеры приостанавливаются вне карточки поставщика.</p></details><section class="backup-panel"><h2>Твой прогресс</h2><p>Игра сохраняется в этом браузере. Для переноса на другой компьютер скачай резервную копию и загрузи её там. В одном профиле браузера используется одно сохранение.</p><div class="backup-actions"><button type="button" id="backup-export" class="quiet">Скачать сохранение</button><label>Загрузить сохранение <input type="file" id="backup-import" accept="application/json,.json"></label></div><p id="backup-preview" role="status"></p><button type="button" id="backup-confirm" hidden>Заменить прогресс</button></section>
+  </section>
+
+  <section id="roster" class="screen" hidden>
+    <button type="button" class="quiet" data-view="world">← Карта мира</button>
+    <header class="hero compact"><div><h1 id="country-title">Индия</h1><p id="country-copy"></p></div></header>
+    <div id="country-scene" class="country-scene" hidden aria-hidden="true"></div><div id="suppliers" class="suppliers"></div>
+
+  </section>
+    <section id="store" class="screen" hidden>
+    <button type="button" class="quiet" data-view="world">← Карта</button>
+    <header class="hero compact"><div><p class="eyebrow">РОССИЯ</p><h1>Витрина</h1></div><b id="store-count"></b></header>
+    <p id="season-order" class="season-order"></p><button type="button" id="season-claim" data-order-claim="1" hidden>Завершить заказ</button><div id="store-filters" class="store-filters"></div><div id="store-grid" class="catalog"></div><div hidden><img id="boutique-backdrop" alt=""><button id="store-prev" type="button"></button><span id="store-page"></span><button id="store-next" type="button"></button></div>
+    <p id="scene-detail" class="scene-detail" role="status"></p><div class="section-label"><b>В ПУТИ</b><span id="shipping-count"></span></div><div id="shipping-grid" class="shipping-grid"></div>
+  </section>
+  <section id="office" class="screen" hidden>
+    <button type="button" class="quiet" data-view="world">← Карта</button>
+    <header class="hero compact"><div><p class="eyebrow">ДУБАЙ</p><h1>Наш офис</h1></div><b id="office-count"></b></header>
+    <h2>Общие достижения</h2><img id="office-backdrop" class="office-header-image" alt="Рабочий офис в Дубае"><div id="office-items" class="office-achievements"></div><div hidden><button id="office-prev" type="button"></button><span id="office-page"></span><button id="office-next" type="button"></button></div>
+    
+  </section>
+
+  <section aria-hidden="true" id="awards" class="screen" hidden>
+    <button type="button" class="quiet" data-view="world">← Карта</button>
+    <header class="hero compact"><h1>Достижения</h1><b id="award-count"></b></header>
+    <div id="global-achievements" class="achievements"></div>
+  </section>
+
+  <section id="play" class="screen" hidden>
+    <div class="play-nav"><button type="button" class="quiet" data-view="roster">← Поставщики</button><button type="button" class="quiet" id="journal-toggle" aria-expanded="false" aria-controls="journal">Коллекция</button><div class="break-controls"><button type="button" id="smoke-break" class="quiet">Перекур</button><small id="smoke-clock"></small></div></div>
+    <header class="partner-heading"><div><p class="eyebrow"><span id="country-small">Индия</span></p><h1 id="partner-name">Landmark Dhanil</h1></div><div class="rank" id="rank">РАНГ 1</div></header>
+    <div class="hud"><div><span>Опыт взаимодействия</span><strong id="rapport">0</strong></div><div><span>Очки улучшений</span><strong id="wallet">0</strong></div><div><span>За переговоры</span><strong id="power">+1</strong></div><div><span>Заработано всего</span><strong id="earned">0</strong></div></div>
+    <div class="trust"><b>Доверие <span id="trust-value">50 / 100</span></b><div class="bar"><i id="trust-bar"></i></div><small id="trust-note"></small></div>
+    <div id="lunch-banner" class="lunch-banner" role="status" aria-live="polite" hidden></div><p id="streak-note" class="streak-note"></p>
+    <div class="play-grid">
+      <div class="character-zone"><button type="button" id="tap" class="character" aria-label="Провести переговоры"><img id="portrait" alt=""><span class="character-caption"><span>ОБСУДИТЬ ЗАКАЗ</span><b id="tap-power">+1 XP</b></span></button><p class="feedback" id="feedback" role="status">Обсудить детали заказа.</p></div>
+      <div class="mission-column">
+        <section class="event-console" id="event-console" hidden aria-live="polite"><div class="console-label"><span class="signal"></span><b id="event-label">СООБЩЕНИЕ</b><span id="event-clock"></span></div><div class="event-host" id="event-host" hidden><img id="event-person" alt=""><strong id="event-person-name"></strong></div><div id="event-art" class="event-art" aria-hidden="true"></div><h2 id="event-title"></h2><p id="event-copy"></p><div id="event-live" hidden><div class="bar danger"><i id="event-bar"></i></div><strong id="result-score" hidden></strong><p class="event-meta" id="event-meta"></p><button type="button" id="event-tap">Отправить комментарий</button><div id="answers" class="answers"></div><div id="mini-game" hidden></div><button type="button" id="result-next" hidden>Продолжить</button></div><p class="micro" id="event-note"></p></section>
+        <section class="contract"><p class="eyebrow" id="chapter">STYLE 1 / 24</p><h2 id="goal"></h2><p id="goal-copy"></p><div class="bar"><i id="goal-bar"></i></div><p class="micro" id="goal-progress"></p><button type="button" aria-keyshortcuts="L" title="L — Утвердить образец или выпустить партию" id="sign">Утвердить образец</button></section>
+        <section class="upgrade"><div class="upgrade-title"><span class="pixel-tool" aria-hidden="true"><svg viewBox="0 0 16 16" width="25" height="25" shape-rendering="crispEdges"><path fill="currentColor" d="M2 2h8v2h2v4H8V6H6v8H3V6H2z"/><path fill="#ad7845" d="M3 7h3v7H3z"/></svg></span><div><p class="eyebrow">УЛУЧШЕНИЕ ПОДХОДА</p><h2 id="upgrade-name">План переговоров</h2></div></div><p id="upgrade-copy"></p><button type="button" aria-keyshortcuts="U" title="U — Улучшить" id="buy" class="secondary">Купить улучшение</button></section>
+      </div>
+    </div>
+    <section class="full-collection"><div class="section-label"><b>КОЛЛЕКЦИЯ</b><span>24 styles</span></div><div class="models" id="models"></div></section>
+    <section id="journal" hidden><div class="section-label"><b>STYLES</b><span id="completed"></span></div><ol class="road" id="road"></ol></section>
+    <footer class="game-footer"><span id="save-status">Автосохранение</span><button type="button" id="reset" class="quiet">Сбросить этого поставщика</button></footer>
+  </section>
+  <button type="button" id="badge-toast" class="badge-toast" aria-live="polite" hidden></button>
+  <div id="angry-sveta" class="angry-sveta" role="status" hidden><img id="angry-sveta-image" alt="Светлана"><div><b>Светлана недовольна</b><p>Пятый перекур: доверие −10</p></div><span aria-hidden="true">!</span></div><dialog id="reset-dialog"><h2>Начать заново?</h2><p>Будет удалён прогресс только выбранного поставщика.</p><div class="dialog-actions"><button type="button" id="cancel-reset" class="secondary">Отмена</button><button type="button" id="confirm-reset">Начать заново</button></div></dialog>
+</div>
+</template>
+<script src="assets/game-d08f7ae208.js"></script>
+</body>
+</html>
